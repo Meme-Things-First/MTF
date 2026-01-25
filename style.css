@@ -1,0 +1,1111 @@
+/* ===================================
+   FONT DECLARATIONS
+   =================================== */
+@font-face {
+    font-family: "Helveesti";
+    src: url("ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2") format("woff2-variations"), url("ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helveesti Spikes";
+    src: url("ABC Helveesti/ABCHelveestiSpikesVariableEdu-Regular.woff2") format("woff2-variations"), url("ABC Helveesti/ABCHelveestiSpikesVariableEdu-Regular.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal italic;
+    font-display: swap;
+}
+
+/* ===================================
+   CSS CUSTOM PROPERTIES
+   =================================== */
+:root {
+    /* Fluid typography: scales smoothly from 13px to 18px */
+    --base-grid: clamp(0.8125rem, 0.65rem + 0.45vw, 1.125rem);
+    --base-size: var(--base-grid);
+    --xlarge-size: calc(var(--base-size) * 5);
+    --heading-size: calc(var(--base-size) * 3);
+    --large-size: calc(var(--base-size) * 2);
+    --medium-size: calc(var(--base-size) * 2);
+    --caption-size: calc(var(--base-size) * 0.8);
+
+    /* Line Heights */
+    --lineheight: 1.5;
+    --lineheight-small: 1.3;
+
+    /* Font Weights */
+    --wght: 400;
+    --wght-heavy: 900;
+
+    /* Layout */
+    --width-text: 50vw;
+    --pad-body: calc(var(--base-grid) * 2);
+    --pad: calc(var(--base-grid) * 1.5);
+    --pad-sm: calc(var(--base-grid) * 1);
+    --pad-xs: calc(var(--base-grid) * 0.5);
+    --indent: clamp(1.5rem, 1rem + 1.5vw, 3rem);
+    --bg-color: rgb(255 255 255);
+}
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS &VARS
+   =================================== */
+/* Large screens - adjust layout */
+@media (min-width: 1440px) {
+    :root {
+        --width-text: 40vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --width-text: 60vw;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --width-text: 100%;
+        --lineheight: 1.35;
+    }
+
+    /* Reduce blurred frame/halo on small viewports */
+    body::after {
+        box-shadow: inset 0 0 10px 10px rgba(198, 198, 197, 0.55);
+    }
+
+    /* Mobile Layout Overrides - unified margins */
+    .layout-container {
+        padding-left: 8vw !important;
+        padding-right: 8vw !important;
+    }
+
+    .bibliography-section,
+    .book-section,
+    article {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .intro-header,
+    .bilingual-wrapper {
+        max-width: 100% !important;
+    }
+
+    /* Fix Main Title Explosion */
+    .main-header {
+        max-width: 100%;
+        padding: var(--pad-body) 0;
+        padding-left: 8vw !important;
+        padding-right: 8vw !important;
+    }
+
+    .main-header h1 {
+        font-size: 21vw !important;
+        line-height: 0.875 !important;
+    }
+
+    .main-header .subtitle {
+        font-size: 6vw !important;
+        max-width: 100% !important;
+        line-height: 1.1 !important;
+    }
+
+    .main-header .subtitle .lang-it {
+        padding-left: 16% !important;
+    }
+
+    .bilingual-group:nth-child(odd),
+    .bilingual-group:nth-child(even) {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .bilingual-group p {
+        text-indent: 0 !important;
+    }
+
+    .bibliography-grid {
+        column-count: 1 !important;
+    }
+
+    /* Article text: slightly smaller */
+    article p {
+        font-size: 4.5vw !important;
+    }
+
+    /* Larger captions on mobile for readability */
+    .figure-caption,
+    .figure-caption p {
+        font-size: 4vw !important;
+    }
+
+    .bibliography-item p {
+        font-size: 4vw !important;
+    }
+
+    .info-item p,
+    .info-item h3 {
+        font-size: 4vw !important;
+    }
+
+    /* Section headings same as subtitle */
+    article h2,
+    .intro-header h2 {
+        font-size: 6vw !important;
+        line-height: 1.2 !important;
+    }
+
+    .main-header .subtitle {
+        line-height: 0.905 !important;
+    }
+
+    /* Enable hover effects on mobile via active/focus */
+    article a:active,
+    article a:focus,
+    .footnote:active,
+    .footnote:focus,
+    .bibliography-item a:active,
+    .bibliography-item a:focus,
+    .info-link:active,
+    .info-link:focus,
+    .license-item a:active,
+    .license-item a:focus,
+    .author-link:active,
+    .author-link:focus,
+    .figure-caption a:active,
+    .figure-caption a:focus {
+        text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+            -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+            0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+            0.06em 0.06em 0.15em rgba(198, 198, 197, 1) !important;
+    }
+
+    /* Dark shadow for Italian text on mobile */
+    .lang-it a:active,
+    .lang-it a:focus {
+        color: rgba(198, 198, 197, 1) !important;
+        text-shadow: -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+            -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+            0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+            0.06em 0.06em 0.15em rgba(54, 54, 53, 1) !important;
+    }
+
+    /* Mobile Images */
+    /* Mobile Images - Figure Wrapper */
+    .figure-wrapper {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column !important;
+        max-width: 70% !important;
+        width: 70% !important;
+        height: auto !important;
+        margin: calc(var(--pad-body) * 0.75) auto !important;
+        right: auto !important;
+        left: auto !important;
+    }
+
+    /* Mobile - Full Width Images */
+    .figure-full {
+        width: 70vw !important;
+        max-width: 70vw !important;
+        margin: calc(var(--pad-body) * 1.5) auto !important;
+    }
+
+    /* Mobile - Footnote Popup */
+    .footnote-popup {
+        max-width: 80vw !important;
+    }
+}
+
+/* ===================================
+   GLOBAL RESET & BASE STYLES
+   =================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: var(--base-size);
+}
+
+body {
+    width: 100%;
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--base-size);
+    line-height: var(--lineheight);
+    font-weight: var(--wght);
+    font-variant-numeric: oldstyle-nums;
+    background-color: rgb(255 255 255);
+    font-feature-settings: "smcp" on;
+    position: relative;
+    /* Context for absolute frame */
+}
+
+/* Global Blurred Frame */
+body::after {
+    content: "";
+    position: absolute;
+    /* Anchored to document, not viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    /* Sharper edge (spread radius 12px) fading into blur (20px) - Darker color */
+    box-shadow: inset 0 0 12px 14px rgba(198, 198, 197, 0.85);
+}
+
+/* ===================================
+   HERO SECTION - FULL VIEWPORT
+   =================================== */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Hero Images Container - For future JS implementation */
+.hero-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100 !important;
+    /* Above header */
+    pointer-events: none;
+    /* Allow clicks to pass through to header */
+}
+
+/* Hero Popup Images - Animated */
+.hero-popup-image {
+    position: absolute;
+    object-fit: contain;
+    background: transparent;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    z-index: 999 !important;
+    /* Maximum z-index - above everything */
+    box-shadow: none !important;
+    filter: drop-shadow(0 2px 15px rgba(54, 54, 53, 0.25)) drop-shadow(0 4px 40px rgba(54, 54, 53, 0.35));
+    border: none !important;
+    outline: none !important;
+}
+
+.hero-popup-image.visible {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+.hero-popup-image.hiding {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Main Header in Hero Section - Centered */
+.hero-section .main-header {
+    position: relative;
+    z-index: 2;
+    /* Keep existing main-header styles */
+}
+
+/* Main Content Section */
+.main-content {
+    position: relative;
+    background: var(--bg-color);
+    min-height: 100vh;
+}
+
+/* Mobile Adjustments for Hero */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 100svh;
+        /* Use small viewport height on mobile */
+    }
+}
+
+/* ===================================
+   TYPOGRAPHY
+   =================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: var(--wght-heavy);
+    padding-bottom: 0;
+    margin: 0;
+    line-height: 0.9;
+}
+
+h1,
+h2 {
+    font-size: var(--heading-size);
+    letter-spacing: 0.025em;
+}
+
+p {
+    line-height: var(--lineheight);
+}
+
+p strong {
+    font-weight: var(--wght-heavy);
+    letter-spacing: 0.01em;
+    padding-right: 2px;
+}
+
+p strong em {
+    font-style: italic;
+}
+
+em {
+    font-style: italic;
+    font-variation-settings: "EXPO" -10;
+}
+
+
+i {
+    font-style: normal;
+    font-variation-settings: "slnt" -10;
+}
+
+
+/* ===================================
+   LANGUAGE STYLES
+   =================================== */
+.lang-en {
+    color: #363635;
+}
+
+.lang-it {
+    color: #878786;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+@media (max-width: 850px) {
+    p {
+        letter-spacing: 0.01em;
+    }
+
+    .main-header .subtitle .lang-it {
+        padding-left: 16%;
+    }
+}
+
+/* ===================================
+   LAYOUT CONTAINER
+   =================================== */
+.layout-container {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main.content {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ===================================
+   HEADER STYLES
+   =================================== */
+.main-header {
+    width: 100%;
+    padding: var(--pad-body) 0 0 0;
+    text-align: center;
+}
+
+.main-header h1 {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: calc(var(--heading-size) * 3);
+    line-height: 0.84;
+    margin-bottom: var(--pad-sm);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    color: #363635;
+    text-shadow: none;
+}
+
+.home-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.main-header .subtitle {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: 2.8vw;
+    line-height: 0.905;
+    font-weight: 900;
+    text-align: left;
+    max-width: var(--width-text);
+    margin: 0 auto;
+}
+
+.main-header .subtitle .lang-en,
+.main-header .subtitle .lang-it {
+    display: block;
+    text-align: left;
+}
+
+.main-header .subtitle .lang-it {
+    padding: 0;
+    padding-left: 20%;
+    text-indent: 0;
+}
+
+/* ===================================
+   ARTICLE STYLES
+   =================================== */
+article {
+    margin-top: 10vh;
+    padding: 0 0 calc(var(--pad-body) * 3) 0;
+    background-color: rgb(255 255 255);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+article h1,
+article h2,
+article h3,
+article p {
+    max-width: var(--width-text);
+    margin: 0 auto;
+}
+
+article h1,
+article h2 {
+    padding: 0;
+    padding-bottom: var(--pad);
+}
+
+article h1 {
+    font-size: var(--heading-size);
+    width: 100%;
+    line-height: 1.1;
+}
+
+article h2 {
+    font-size: 2vw !important;
+    line-height: 0.905;
+    padding-top: calc(var(--pad-body) * 4);
+    padding-bottom: calc(var(--pad-body) * 4 / 3);
+}
+
+article p {
+    text-indent: 0;
+    font-size: var(--base-size);
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    text-justify: inter-word;
+}
+
+article a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+article a:hover {
+    text-decoration: none;
+}
+
+/* ===================================
+   INTRO HEADER
+   =================================== */
+.intro-header {
+    text-align: left;
+    margin-bottom: 0;
+    width: 100%;
+    max-width: var(--width-text);
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 0;
+    box-sizing: border-box;
+}
+
+.intro-header h2 {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--medium-size);
+    font-weight: 900;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    color: #363635;
+    padding: 0;
+    line-height: 1.1;
+}
+
+.intro-header h2.centered-title {
+    text-align: center;
+}
+
+/* Specific adjustment for intro header superscripts */
+/* Specific adjustment for intro header superscripts */
+.intro-header h2 .sups {
+    font-weight: 900;
+    line-height: 1;
+    vertical-align: baseline;
+    position: relative;
+    top: -0.4em;
+}
+
+.intro-header h2 {
+    padding-top: 0.5em;
+    /* Add space for superscript */
+}
+
+/* Hover effect for Main Title */
+.main-header h1:hover {
+    text-shadow:
+        -0.5vw -0.5vw 2vw rgba(198, 198, 197, 1),
+        -1vw -1vw 2vw rgba(198, 198, 197, 1),
+        0.5vw 0.5vw 2vw rgba(198, 198, 197, 1),
+        1vw 1vw 2vw rgba(198, 198, 197, 1);
+}
+
+/* ===================================
+   BILINGUAL LAYOUT
+   =================================== */
+.bilingual-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: var(--width-text);
+    margin: 0 auto;
+}
+
+.bilingual-group {
+    width: 100%;
+    text-align: justify;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+}
+
+.bilingual-group p {
+    margin-bottom: 0;
+}
+
+.bilingual-group:nth-child(odd) {
+    padding-right: 20%;
+}
+
+.bilingual-group:nth-child(even) {
+    padding-left: 20%;
+}
+
+
+/* ===================================
+   SUPERSCRIPT & FOOTNOTES
+   =================================== */
+.sups {
+    text-transform: none;
+    vertical-align: baseline;
+    font-size: 0.8em;
+    font-weight: 450;
+    line-height: 0;
+    position: relative;
+    top: -0.4em;
+}
+
+.footnote {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.footnote:hover {
+    text-shadow:
+        -0.05em -0.05em 0.2em rgba(198, 198, 197, 1),
+        -0.1em -0.1em 0.2em rgba(198, 198, 197, 1),
+        0.05em 0.05em 0.2em rgba(198, 198, 197, 1),
+        0.1em 0.1em 0.2em rgba(198, 198, 197, 1);
+}
+
+/* ===================================
+   BIBLIOGRAPHY SECTION
+   =================================== */
+.bibliography-section {
+    margin-top: 10vh;
+    max-width: 100%;
+}
+
+@media (min-width: 769px) {
+
+    /* Desktop bibliography margins */
+    .bibliography-section {
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+}
+
+.bibliography-grid {
+    display: block;
+    column-count: 2;
+    column-gap: var(--pad);
+    margin-top: var(--pad);
+}
+
+.bibliography-item {
+    break-inside: avoid;
+    margin-bottom: var(--base-size);
+}
+
+.bibliography-item p {
+    font-size: var(--caption-size);
+    line-height: var(--lineheight-small);
+    margin: 0;
+    text-align: left;
+}
+
+.bibliography-item a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.bibliography-item a:hover {
+    text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+/* ===================================
+   INFO SECTION (4 columns)
+   =================================== */
+.info-section {
+    margin-top: 10vh;
+    max-width: 100%;
+}
+
+@media (min-width: 769px) {
+    .info-section {
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--pad);
+    margin-top: var(--pad);
+}
+
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-item {
+    grid-column: span 2;
+    /* Default width (1/6th) */
+}
+
+.support-item {
+    grid-column: span 3;
+    /* Wider (1/4th) */
+}
+
+.license-item {
+    grid-column: span 3;
+    /* Narrower than previous visual half, but matching support to fill row */
+}
+
+@media (max-width: 768px) {
+
+    .info-item,
+    .support-item,
+    .license-item {
+        grid-column: auto;
+    }
+}
+
+.info-item h3 {
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--caption-size);
+    font-weight: normal;
+    text-transform: none;
+    margin-bottom: 0;
+    display: block;
+    margin-bottom: var(--pad-xs);
+    font-size: var(--caption-size) !important;
+}
+
+.license-item a:hover {
+    text-shadow: -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+        -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+        0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+        0.06em 0.06em 0.15em rgba(54, 54, 53, 1);
+}
+
+.info-item p {
+    font-size: var(--caption-size);
+    line-height: var(--lineheight);
+    margin: 0;
+    text-align: left;
+    hyphens: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+}
+
+/* Plain links for info section */
+.info-link,
+.license-item a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.info-link:hover,
+.info-link:active,
+.info-link:visited,
+.license-item a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Hover effect for Info Section Links (Names & License) */
+.info-grid .info-link:hover,
+.license-item a:hover {
+    text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.info-header {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-weight: 900;
+    color: #363635;
+}
+
+.info-item:not(.license-item) .lang-it {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-weight: 900;
+}
+
+/* Centered Title (Get the PDF) - half title size with shadow */
+.centered-title {
+    text-align: center;
+    font-size: calc(var(--heading-size) * 1.5) !important;
+    letter-spacing: 0.025em;
+    text-shadow: none;
+}
+
+/* Hover effect for the PDF Title */
+.book-section .info-link:hover .centered-title {
+    text-shadow:
+        -0.25vw -0.25vw 1vw rgba(198, 198, 197, 1),
+        -0.5vw -0.5vw 1vw rgba(198, 198, 197, 1),
+        0.25vw 0.25vw 1vw rgba(198, 198, 197, 1),
+        0.5vw 0.5vw 1vw rgba(198, 198, 197, 1);
+}
+
+
+
+/* Author links in article text */
+.author-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.author-link:hover {
+    text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+/* Dark shadow for Italian text (when visible and grey) */
+.lang-it .footnote.sups:hover,
+.lang-it .author-link:hover,
+.lang-it .info-link:hover,
+.license-item .lang-it a:hover,
+.figure-caption p.lang-it a:hover {
+    color: rgba(198, 198, 197, 1);
+    text-shadow: -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+        -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+        0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+        0.06em 0.06em 0.15em rgba(54, 54, 53, 1);
+}
+
+/* Footnote Popup */
+.footnote-popup {
+    position: absolute;
+    max-width: 37.5vw;
+    width: fit-content;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    filter: none;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    margin: 0;
+    /* Exit transition: smooth and simple */
+    transform: translateY(-50%) scale(0.9);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.footnote-popup.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1);
+    /* Enter transition: bouncy elastic effect */
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.footnote-popup-content {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-size: var(--caption-size);
+    /* Ensure parent has correct size */
+    line-height: var(--lineheight-small);
+    /* Ensure parent strut matches child */
+}
+
+.footnote-popup-close,
+.footnote-popup-number {
+    display: none;
+}
+
+.footnote-popup-text {
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--caption-size);
+    line-height: var(--lineheight-small) !important;
+    padding: 0 !important;
+    margin: 0;
+    display: inline;
+    background: rgba(198, 198, 197, 1);
+    box-shadow: 0 0 5px 2px rgba(198, 198, 197, 1);
+    /* Basic Feather effect */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+/* Italian footnotes - inverted colors */
+.footnote-popup.lang-it {
+    background: transparent;
+}
+
+.footnote-popup.lang-it .footnote-popup-text {
+    background: rgba(54, 54, 53, 1);
+    color: rgba(198, 198, 197, 1);
+    box-shadow: 0 0 5px 2px rgba(54, 54, 53, 1);
+    /* Basic Feather effect */
+}
+
+/* Mobile images handling is in the 768px media query above */
+
+/* ===================================
+   FIGURE & CAPTIONS (Replaces floating-image on img)
+   =================================== */
+.figure-wrapper {
+    position: absolute;
+    width: 18vw;
+    max-width: 18vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    /* Align to bottom of parent bilingual-group */
+    bottom: 0;
+}
+
+.figure-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 4px 40px rgba(54, 54, 53, 0.35), 0 2px 15px rgba(54, 54, 53, 0.25);
+}
+
+.figure-wrapper.right {
+    right: -20vw;
+}
+
+.figure-wrapper.left {
+    /* Now positioned relative to text without padding */
+    left: -20vw;
+}
+
+.figure-caption {
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--caption-size);
+    line-height: var(--lineheight-small);
+    padding: 0;
+    margin-top: var(--base-size);
+    /* Space between image and caption */
+
+    background: transparent;
+    filter: none;
+
+    /* Reset previous styles */
+    box-shadow: none;
+    border: none;
+
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.figure-caption p {
+    margin: 0;
+    text-indent: 0;
+    font-size: inherit;
+    line-height: inherit;
+    word-wrap: break-word;
+    text-align: left;
+
+    /* Highlight style */
+    display: inline;
+    background-color: rgb(255 255 255);
+    box-shadow: 5px 0 0 rgb(255 255 255), -5px 0 0 rgb(255 255 255);
+}
+
+/* Full-width images */
+.figure-full {
+    width: 85vw;
+    max-width: 85vw;
+    margin: calc(var(--pad-body) * 3) auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    left: 0;
+}
+
+.figure-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 4px 40px rgba(54, 54, 53, 0.35), 0 2px 15px rgba(54, 54, 53, 0.25);
+}
+
+.figure-full .figure-caption {
+    width: 100%;
+    max-width: var(--width-text);
+    margin-top: var(--base-size);
+    text-align: left;
+}
+
+.figure-caption p.lang-en {
+    background: rgba(198, 198, 197, 1);
+    color: initial;
+    box-shadow: 0 0 5px 2px rgba(198, 198, 197, 1);
+    /* Basic Feather effect */
+}
+
+/* Add spacing between languages using a pseudo-element on the first paragraph */
+.figure-caption p.lang-en::after {
+    content: "";
+    display: block;
+    height: calc(1em * var(--lineheight-small));
+    /* Use line-height for spacing */
+    background: transparent;
+    box-shadow: none;
+    /* No shadow on spacer */
+}
+
+.figure-caption p.lang-it {
+    background: rgba(54, 54, 53, 1);
+    color: rgba(198, 198, 197, 1);
+    box-shadow: 0 0 5px 2px rgba(54, 54, 53, 1);
+    /* Basic Feather effect */
+}
+
+.figure-caption a,
+.figure-caption .info-link {
+    /* Assuming links might use this or generic a */
+    color: inherit !important;
+    text-decoration: none;
+}
+
+.figure-caption p.lang-en a:hover,
+.figure-caption a:hover {
+    text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.figure-caption a:hover {
+    text-decoration: none;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+    .figure-wrapper {
+        width: 16vw;
+        max-width: 16vw;
+        bottom: 0;
+    }
+
+    .figure-wrapper.right {
+        right: -17vw;
+    }
+
+    .figure-wrapper.left {
+        left: -17vw;
+    }
+}
+
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 0 20px rgba(54, 54, 53, 0.2);
+}
+
+button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+/* ===================================
+   BOOK SECTION
+   =================================== */
+.book-section {
+    margin-top: 10vh;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    /* Scale to match layout */
+}
+
+@media (min-width: 641px) {
+    .book-section {
+        padding-left: var(--pad-body);
+        padding-right: var(--pad-body);
+    }
+}
