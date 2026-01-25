@@ -161,6 +161,12 @@
         line-height: 0.905 !important;
     }
 
+    /* "Get the PDF!" title - 50% of Main Title (21vw / 2 = 10.5vw) */
+    .intro-header h2.centered-title {
+        font-size: 10.5vw !important;
+        line-height: 1.1 !important;
+    }
+
     /* Enable hover effects on mobile via active/focus */
     article a:active,
     article a:focus,

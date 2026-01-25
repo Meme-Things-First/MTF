@@ -140,12 +140,16 @@ class HeroImages {
         img.className = 'hero-popup-image';
 
         // Random size in viewport units (more reliable for positioning)
-        const sizeVw = this.randomBetween(15, 30); // 15-30vw
-
-        // Maximum constraints to ensure images fit
-        const maxWidthVw = 40; // Max 40vw
         // On mobile, allow images to take full viewport height; on desktop, limit to 40vh
         const isMobile = window.innerWidth <= 768;
+        
+        // Larger images on mobile as requested
+        const minSize = isMobile ? 35 : 15;
+        const maxSize = isMobile ? 55 : 30;
+        const sizeVw = this.randomBetween(minSize, maxSize);
+
+        // Maximum constraints to ensure images fit
+        const maxWidthVw = isMobile ? 60 : 40; // Max 60vw on mobile
         const maxHeightVh = isMobile ? 70 : 40; // Mobile: 70vh for better positioning, Desktop: 40vh
 
         // Calculate safe positioning with generous padding to avoid border frame
