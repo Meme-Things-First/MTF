@@ -356,6 +356,7 @@ h6 {
     padding-bottom: 0;
     margin: 0;
     line-height: 0.9;
+    text-wrap: pretty;
 }
 
 h1,
@@ -395,10 +396,18 @@ i {
    =================================== */
 .lang-en {
     color: #363635;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 .lang-it {
     color: #878786;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 a {
@@ -465,6 +474,7 @@ main.content {
     text-align: left;
     max-width: var(--width-text);
     margin: 0 auto;
+    text-wrap: pretty;
 }
 
 .main-header .subtitle .lang-en,
@@ -522,12 +532,12 @@ article h2 {
 article p {
     text-indent: 0;
     font-size: var(--base-size);
-    text-align: justify;
+    text-align: left;
+    text-wrap: pretty;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
-    text-justify: inter-word;
 }
 
 article a {
@@ -613,6 +623,7 @@ article a:hover {
 
 .bilingual-group p {
     margin-bottom: 0;
+    text-wrap: pretty;
 }
 
 .bilingual-group:nth-child(odd) {
