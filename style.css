@@ -696,6 +696,7 @@ article a:hover {
     line-height: var(--lineheight-small);
     margin: 0;
     text-align: left;
+    text-wrap: pretty;
 }
 
 .bibliography-item a {
@@ -783,6 +784,7 @@ article a:hover {
     hyphens: none;
     -webkit-hyphens: none;
     -ms-hyphens: none;
+    text-wrap: pretty;
 }
 
 /* Plain links for info section */
