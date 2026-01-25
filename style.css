@@ -716,7 +716,7 @@ article a:hover {
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(14, 1fr);
     gap: var(--pad);
     margin-top: var(--pad);
 }
@@ -732,14 +732,9 @@ article a:hover {
     /* Default width (1/6th) */
 }
 
-.support-item {
-    grid-column: span 3;
-    /* Wider (1/4th) */
-}
-
 .license-item {
-    grid-column: span 3;
-    /* Narrower than previous visual half, but matching support to fill row */
+    grid-column: span 2;
+    /* Reset to 2 to fit 6 items in 12 cols (6*2=12) */
 }
 
 @media (max-width: 768px) {
@@ -813,6 +808,11 @@ article a:hover {
 .info-item:not(.license-item) .lang-it {
     font-family: "Helveesti Spikes", sans-serif;
     font-weight: 900;
+}
+
+.info-item.cookie-item .lang-it {
+    font-family: "Helveesti", sans-serif;
+    font-weight: normal;
 }
 
 /* Centered Title (Get the PDF) - half title size with shadow */
