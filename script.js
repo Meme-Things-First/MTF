@@ -1,10 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Force scroll to top on page load/reload
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
 
-    // Scroll to top on page load/reload (avoid double jumps)
-    if (window.history.scrollRestoration) {
-        window.history.scrollRestoration = 'manual';
-    }
+window.scrollTo(0, 0);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Second ensuring attempt after DOM is ready
     window.scrollTo(0, 0);
+
+    // Some browsers need a tiny delay to override scroll position
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 0);
 
     /* -----------------------------------------------------
        FOOTNOTE SYSTEM
@@ -208,60 +216,73 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-/* -----------------------------------------------------
-       SCROLL TO TOP
-       ----------------------------------------------------- */
-  const mybutton = document.getElementById("scroll_top");
+    /* -----------------------------------------------------
+           SCROLL TO TOP
+           ----------------------------------------------------- */
+    const mybutton = document.getElementById("scroll_top");
+    const menuContainer = document.querySelector(".hamburger-menu");
 
-  if (mybutton) {
-      window.onscroll = function() {
-        scrollFunction();
-      };
-  }
-
-  function scrollFunction() {
-    // Increased threshold to 500px as requested "dopo un po' di scrolling"
-    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
-      mybutton.style.display = "block";
-      // Use setTimeout to allow display:block to apply before changing opacity for transition
-      setTimeout(() => {
-          mybutton.style.opacity = "1";
-      }, 10);
-    } else {
-      mybutton.style.opacity = "0";
-      // Wait for transition to finish before hiding
-      setTimeout(() => {
-          if (document.body.scrollTop <= 500 && document.documentElement.scrollTop <= 500) {
-            mybutton.style.display = "none";
-          }
-      }, 300);
+    if (mybutton) {
+        window.onscroll = function () {
+            scrollFunction();
+        };
     }
-  }
 
-  window.topFunction = function() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-  };
+    function scrollFunction() {
+        // Calculate the threshold: when user scrolls past the hero section
+        // Hero section is 100vh, so we show elements when scrolled past that
+        const heroHeight = window.innerHeight; // 100vh
+        const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
+
+        // Show menu and scroll-to-top after hero section
+        if (scrollPosition > heroHeight) {
+            if (menuContainer) {
+                menuContainer.classList.add("visible");
+            }
+
+            mybutton.style.display = "block";
+            // Use setTimeout to allow display:block to apply before changing opacity for transition
+            setTimeout(() => {
+                mybutton.style.opacity = "1";
+            }, 10);
+        } else {
+            if (menuContainer) {
+                menuContainer.classList.remove("visible");
+            }
+
+            mybutton.style.opacity = "0";
+            // Wait for transition to finish before hiding
+            setTimeout(() => {
+                if (scrollPosition <= heroHeight) {
+                    mybutton.style.display = "none";
+                }
+            }, 300);
+        }
+    }
+
+    window.topFunction = function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
 
     /* -----------------------------------------------------
        HAMBURGER MENU
        ----------------------------------------------------- */
-  const menuContainer = document.querySelector(".hamburger-menu");
-  const menuToggle = document.querySelector(".menu-toggle");
-  const menuLinks = document.querySelectorAll(".menu-link");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const menuLinks = document.querySelectorAll(".menu-link");
 
-  if (menuToggle && menuContainer) {
-    menuToggle.addEventListener("click", () => {
-      menuContainer.classList.toggle("open");
-    });
-  }
+    if (menuToggle && menuContainer) {
+        menuToggle.addEventListener("click", () => {
+            menuContainer.classList.toggle("open");
+        });
+    }
 
-  menuLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      menuContainer.classList.remove("open");
+    menuLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            menuContainer.classList.remove("open");
+        });
     });
-  });
 });
 
