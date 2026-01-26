@@ -28,7 +28,7 @@
     font-family: 'Untimes';
     src: url('Untimes-BoldItalic.woff2') format('woff2');
     font-weight: normal;
-    font-style: italic;
+    font-style: normal;
 }
 
 /* ===================================
@@ -994,7 +994,7 @@ button {
     flex-direction: column;
     /* Mobile first: stack */
     align-items: center;
-    gap: var(--pad-sm);
+    gap: var(--pad);
 
     padding-bottom: 0;
 }
@@ -1109,6 +1109,7 @@ button {
     margin: 0;
     display: block;
     padding: 0;
+    text-wrap: pretty;
 }
 
 
@@ -1193,7 +1194,8 @@ button {
     }
 
     /* Article text: slightly smaller */
-    article p {
+    article p,
+    .article-authors {
         font-size: 4.5vw !important;
     }
 
@@ -1203,8 +1205,14 @@ button {
         font-size: 4vw !important;
     }
 
-    .bibliography-item p {
+    .bibliography-item p,
+    .article-excerpt p,
+    .footer-col p {
         font-size: 4vw !important;
+    }
+
+    .article-excerpt {
+        padding-right: 0 !important;
     }
 
     .info-item p,
@@ -1214,7 +1222,8 @@ button {
 
     /* Section headings same as subtitle */
     article h2,
-    .intro-header h2 {
+    .intro-header h2,
+    .project-intro p {
         font-size: 6vw !important;
         line-height: 1.2 !important;
     }
