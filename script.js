@@ -208,4 +208,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+/* -----------------------------------------------------
+       SCROLL TO TOP
+       ----------------------------------------------------- */
+  const mybutton = document.getElementById("scroll_top");
+
+  if (mybutton) {
+      window.onscroll = function() {
+        scrollFunction();
+      };
+  }
+
+  function scrollFunction() {
+    // Increased threshold to 500px as requested "dopo un po' di scrolling"
+    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+      mybutton.style.display = "block";
+      // Use setTimeout to allow display:block to apply before changing opacity for transition
+      setTimeout(() => {
+          mybutton.style.opacity = "1";
+      }, 10);
+    } else {
+      mybutton.style.opacity = "0";
+      // Wait for transition to finish before hiding
+      setTimeout(() => {
+          if (document.body.scrollTop <= 500 && document.documentElement.scrollTop <= 500) {
+            mybutton.style.display = "none";
+          }
+      }, 300);
+    }
+  }
+
+  window.topFunction = function() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+  };
+
+    /* -----------------------------------------------------
+       HAMBURGER MENU
+       ----------------------------------------------------- */
+  const menuContainer = document.querySelector(".hamburger-menu");
+  const menuToggle = document.querySelector(".menu-toggle");
+  const menuLinks = document.querySelectorAll(".menu-link");
+
+  if (menuToggle && menuContainer) {
+    menuToggle.addEventListener("click", () => {
+      menuContainer.classList.toggle("open");
+    });
+  }
+
+  menuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      menuContainer.classList.remove("open");
+    });
+  });
 });
+

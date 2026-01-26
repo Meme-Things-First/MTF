@@ -1310,3 +1310,150 @@ button {
         grid-column: auto;
     }
 }
+
+/* ===================================
+   SCROLL TO TOP BUTTON
+   =================================== */
+#scroll_top {
+  display: none; /* Hidden by default */
+  position: fixed;
+  bottom: var(--pad-body);
+  right: var(--pad-body);
+  z-index: 9999;
+  border: none;
+  outline: none;
+  background-color: transparent; /* Transparent background */
+  color: #363635; /* Main text color */
+  cursor: pointer;
+  padding: 0;
+  font-family: "Helveesti", sans-serif; /* Helveesti font */
+  font-size: var(--large-size); /* Clearly visible arrow */
+  font-weight: 900;
+  opacity: 0;
+  transition: opacity 0.3s ease, text-shadow 0.3s ease;
+}
+
+#scroll_top:hover {
+  /* Matching the text shadow hover effect of the rest of the site */
+  text-shadow:
+    -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+    -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+    0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+    0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+@media (max-width: 768px) {
+    #scroll_top {
+        bottom: calc(var(--pad-body) * 0.5);
+        right: 5vw;
+    }
+}
+
+
+/* ===================================
+   HAMBURGER MENU
+   =================================== */
+.hamburger-menu {
+  position: fixed;
+  top: var(--pad-body);
+  left: var(--pad-body);
+  z-index: 10000;
+}
+
+/* Container for relative positioning of the dropdown */
+.hamburger-menu-container {
+  position: relative;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  position: relative;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem; 
+  height: auto;
+}
+
+.menu-toggle img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.menu-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: auto;
+  height: auto;
+  min-width: max-content;
+  background: transparent; 
+  display: block;
+  padding: 0; 
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 10000;
+  box-shadow: none; 
+  border: none; 
+  text-align: left;
+}
+
+.hamburger-menu.open .menu-overlay {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(10px); 
+}
+
+.menu-toggle {
+  position: relative;
+  z-index: 10001;
+}
+
+.menu-overlay ul {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-overlay li {
+  margin: var(--pad-xs) 0;
+}
+
+.menu-link {
+  font-family: "Helveesti Spikes", sans-serif;
+  font-size: calc(var(--base-size) * 0.85); /* Smaller than base size */
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #363635;
+  font-weight: 900;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.menu-link:hover {
+  text-shadow:
+    -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+    -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+    0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+    0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+@media (max-width: 768px) {
+  .hamburger-menu {
+    top: calc(var(--pad-body) * 0.5);
+    left: 5vw; /* Match mobile padding roughly */
+  }
+
+  /* Reset mobile specific sizes if any were inherited awkwardly */
+  .menu-link {
+      font-size: var(--caption-size); /* Even smaller on mobile */
+  }
+}
