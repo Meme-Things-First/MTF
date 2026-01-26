@@ -74,8 +74,6 @@
 
 html {
     font-size: var(--base-size);
-    scroll-behavior: smooth;
-
 }
 
 body {
@@ -777,6 +775,7 @@ article a:hover {
     /* Basic Feather effect */
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
+    text-wrap: pretty;
 }
 
 /* Italian footnotes - inverted colors */
@@ -1107,7 +1106,7 @@ button {
     font-size: calc(var(--base-size) * 1.5);
     /* Same as article */
     font-family: 'Untimes', sans-serif;
-    line-height: var(--lineheight);
+    line-height: 1.2;
     margin: 0;
     display: block;
     padding: 0;
@@ -1224,10 +1223,14 @@ button {
 
     /* Section headings same as subtitle */
     article h2,
-    .intro-header h2,
-    .project-intro p {
+    .intro-header h2 {
         font-size: 6vw !important;
         line-height: 0.905 !important;
+    }
+
+    .project-intro p {
+        font-size: 6vw !important;
+        line-height: 1.2 !important;
     }
 
     .main-header .subtitle {
@@ -1317,37 +1320,43 @@ button {
    SCROLL TO TOP BUTTON
    =================================== */
 #scroll_top {
-  display: none; /* Hidden by default */
-  position: fixed;
-  bottom: var(--pad-body);
-  right: var(--pad-body);
-  z-index: 9999;
-  border: none;
-  outline: none;
-  background-color: transparent; /* Transparent background */
-  color: #363635; /* Main text color */
-  cursor: pointer;
-  padding: 0;
-  font-family: "Helveesti", sans-serif; /* Helveesti font */
-  font-size: var(--large-size); /* Clearly visible arrow */
-  font-weight: 900;
-  opacity: 0;
-  transition: opacity 0.3s ease, text-shadow 0.3s ease;
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    top: 48%;
+    /* Optical centering adjustment */
+    right: var(--pad-body);
+    transform: translateY(-50%);
+    z-index: 9999;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    /* Transparent background */
+    color: #363635;
+    /* Main text color */
+    cursor: pointer;
+    padding: 0;
+    font-family: "Helveesti Spikes", sans-serif;
+    /* Helveesti Spikes font */
+    font-size: var(--large-size);
+    /* Clearly visible arrow */
+    font-weight: 900;
+    opacity: 0;
+    transition: opacity 0.3s ease, text-shadow 0.3s ease;
 }
 
 #scroll_top:hover {
-  /* Matching the text shadow hover effect of the rest of the site */
-  text-shadow:
-    -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
-    -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
-    0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
-    0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+    /* Matching the text shadow hover effect of the rest of the site */
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
 }
 
 @media (max-width: 768px) {
     #scroll_top {
-        bottom: calc(var(--pad-body) * 0.5);
-        right: 5vw;
+        display: none !important;
     }
 }
 
@@ -1356,107 +1365,119 @@ button {
    HAMBURGER MENU
    =================================== */
 .hamburger-menu {
-  position: fixed;
-  top: var(--pad-body);
-  left: var(--pad-body);
-  z-index: 10000;
+    position: fixed;
+    top: 48%;
+    /* Optical centering adjustment */
+    transform: translateY(-50%);
+    left: var(--pad-body);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.hamburger-menu.visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Container for relative positioning of the dropdown */
 .hamburger-menu-container {
-  position: relative;
+    position: relative;
 }
 
 .menu-toggle {
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 0;
-  position: relative;
-  z-index: 10001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.5rem; 
-  height: auto;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: relative;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: auto;
 }
 
 .menu-toggle img {
-  width: 100%;
-  height: auto;
-  display: block;
-  box-shadow: none !important; /* rimuove ombra quadrato img */
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: none !important;
+    filter: none;
+    transition: filter 0.3s ease;
+}
+
+.menu-toggle:hover img {
+    filter: drop-shadow(0 2px 15px rgba(54, 54, 53, 0.25)) drop-shadow(0 4px 40px rgba(54, 54, 53, 0.35));
 }
 
 .menu-overlay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: auto;
-  height: auto;
-  min-width: max-content;
-  background: transparent; 
-  display: block;
-  padding: 0; 
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-  z-index: 10000;
-  box-shadow: none; 
-  border: none; 
-  text-align: left;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: auto;
+    height: auto;
+    min-width: max-content;
+    background: transparent;
+    display: block;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 10000;
+    box-shadow: none;
+    border: none;
+    text-align: left;
 }
 
 .hamburger-menu.open .menu-overlay {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(10px); 
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(10px);
 }
 
 .menu-toggle {
-  position: relative;
-  z-index: 10001;
+    position: relative;
+    z-index: 10001;
 }
 
 .menu-overlay ul {
-  list-style: none;
-  text-align: left;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
 }
 
 .menu-overlay li {
-  margin: var(--pad-xs) 0;
+    margin: var(--pad-xs) 0;
 }
 
 .menu-link {
-  font-family: "Helveesti Spikes", sans-serif;
-  font-size: calc(var(--base-size) * 0.85); /* Smaller than base size */
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #363635;
-  font-weight: 900;
-  transition: all 0.2s ease;
-  display: block;
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--caption-size);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #363635;
+    font-weight: 900;
+    line-height: var(--lineheight);
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    display: block;
 }
 
 .menu-link:hover {
-  text-shadow:
-    -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
-    -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
-    0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
-    0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
 }
 
 @media (max-width: 768px) {
-  .hamburger-menu {
-    top: calc(var(--pad-body) * 0.5);
-    left: 5vw; /* Match mobile padding roughly */
-  }
-
-  /* Reset mobile specific sizes if any were inherited awkwardly */
-  .menu-link {
-      font-size: var(--caption-size); /* Even smaller on mobile */
-  }
+    .hamburger-menu {
+        display: none !important;
+    }
 }

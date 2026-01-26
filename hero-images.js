@@ -142,10 +142,10 @@ class HeroImages {
         // Random size in viewport units (more reliable for positioning)
         // On mobile, allow images to take full viewport height; on desktop, limit to 40vh
         const isMobile = window.innerWidth <= 768;
-        
+
         // Larger images on mobile as requested
-        const minSize = isMobile ? 35 : 15;
-        const maxSize = isMobile ? 55 : 30;
+        const minSize = isMobile ? 35 : 12;
+        const maxSize = isMobile ? 55 : 25;
         const sizeVw = this.randomBetween(minSize, maxSize);
 
         // Maximum constraints to ensure images fit
