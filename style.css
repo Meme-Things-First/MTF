@@ -74,6 +74,8 @@
 
 html {
     font-size: var(--base-size);
+    scroll-behavior: smooth;
+
 }
 
 body {
