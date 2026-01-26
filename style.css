@@ -1383,6 +1383,7 @@ button {
   width: 100%;
   height: auto;
   display: block;
+  box-shadow: none !important; /* rimuove ombra quadrato img */
 }
 
 .menu-overlay {
