@@ -48,182 +48,6 @@
     --bg-color: rgb(255 255 255);
 }
 
-/* ===================================
-   RESPONSIVE BREAKPOINTS &VARS
-   =================================== */
-/* Large screens - adjust layout */
-@media (min-width: 1440px) {
-    :root {
-        --width-text: 40vw;
-    }
-}
-
-@media (max-width: 1024px) {
-    :root {
-        --width-text: 60vw;
-    }
-}
-
-@media (max-width: 768px) {
-    :root {
-        --width-text: 100%;
-        --lineheight: 1.35;
-    }
-
-    /* Reduce blurred frame/halo on small viewports */
-    body::after {
-        box-shadow: inset 0 0 10px 10px rgba(198, 198, 197, 0.55);
-    }
-
-    /* Mobile Layout Overrides - unified margins */
-    .layout-container {
-        padding-left: 8vw !important;
-        padding-right: 8vw !important;
-    }
-
-    .bibliography-section,
-    .book-section,
-    article {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    .intro-header,
-    .bilingual-wrapper {
-        max-width: 100% !important;
-    }
-
-    /* Fix Main Title Explosion */
-    .main-header {
-        max-width: 100%;
-        padding: var(--pad-body) 0;
-        padding-left: 8vw !important;
-        padding-right: 8vw !important;
-    }
-
-    .main-header h1 {
-        font-size: 21vw !important;
-        line-height: 0.875 !important;
-    }
-
-    .main-header .subtitle {
-        font-size: 6vw !important;
-        max-width: 100% !important;
-        line-height: 1.1 !important;
-    }
-
-    .main-header .subtitle .lang-it {
-        padding-left: 16% !important;
-    }
-
-    .bilingual-group:nth-child(odd),
-    .bilingual-group:nth-child(even) {
-        padding-right: 0 !important;
-        padding-left: 0 !important;
-    }
-
-    .bilingual-group p {
-        text-indent: 0 !important;
-    }
-
-    .bibliography-grid {
-        column-count: 1 !important;
-    }
-
-    /* Article text: slightly smaller */
-    article p {
-        font-size: 4.5vw !important;
-    }
-
-    /* Larger captions on mobile for readability */
-    .figure-caption,
-    .figure-caption p {
-        font-size: 4vw !important;
-    }
-
-    .bibliography-item p {
-        font-size: 4vw !important;
-    }
-
-    .info-item p,
-    .info-item h3 {
-        font-size: 4vw !important;
-    }
-
-    /* Section headings same as subtitle */
-    article h2,
-    .intro-header h2 {
-        font-size: 6vw !important;
-        line-height: 1.2 !important;
-    }
-
-    .main-header .subtitle {
-        line-height: 0.905 !important;
-    }
-
-    /* "Get the PDF!" title - 50% of Main Title (21vw / 2 = 10.5vw) */
-    .intro-header h2.centered-title {
-        font-size: 10.5vw !important;
-        line-height: 1.1 !important;
-    }
-
-    /* Enable hover effects on mobile via active/focus */
-    article a:active,
-    article a:focus,
-    .footnote:active,
-    .footnote:focus,
-    .bibliography-item a:active,
-    .bibliography-item a:focus,
-    .info-link:active,
-    .info-link:focus,
-    .license-item a:active,
-    .license-item a:focus,
-    .author-link:active,
-    .author-link:focus,
-    .figure-caption a:active,
-    .figure-caption a:focus {
-        text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
-            -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
-            0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
-            0.06em 0.06em 0.15em rgba(198, 198, 197, 1) !important;
-    }
-
-    /* Dark shadow for Italian text on mobile */
-    .lang-it a:active,
-    .lang-it a:focus {
-        color: rgba(198, 198, 197, 1) !important;
-        text-shadow: -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
-            -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
-            0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
-            0.06em 0.06em 0.15em rgba(54, 54, 53, 1) !important;
-    }
-
-    /* Mobile Images */
-    /* Mobile Images - Figure Wrapper */
-    .figure-wrapper {
-        position: static !important;
-        display: flex !important;
-        flex-direction: column !important;
-        max-width: 70% !important;
-        width: 70% !important;
-        height: auto !important;
-        margin: calc(var(--pad-body) * 0.75) auto !important;
-        right: auto !important;
-        left: auto !important;
-    }
-
-    /* Mobile - Full Width Images */
-    .figure-full {
-        width: 70vw !important;
-        max-width: 70vw !important;
-        margin: calc(var(--pad-body) * 1.5) auto !important;
-    }
-
-    /* Mobile - Footnote Popup */
-    .footnote-popup {
-        max-width: 80vw !important;
-    }
-}
 
 /* ===================================
    GLOBAL RESET & BASE STYLES
@@ -335,13 +159,7 @@ body::after {
     min-height: 100vh;
 }
 
-/* Mobile Adjustments for Hero */
-@media (max-width: 768px) {
-    .hero-section {
-        min-height: 100svh;
-        /* Use small viewport height on mobile */
-    }
-}
+
 
 /* ===================================
    TYPOGRAPHY
@@ -576,6 +394,7 @@ article a:hover {
 
 .intro-header h2.centered-title {
     text-align: center;
+    padding-top: 0;
 }
 
 /* Specific adjustment for intro header superscripts */
@@ -589,7 +408,7 @@ article a:hover {
 }
 
 .intro-header h2 {
-    padding-top: 0;
+    padding-top: 0.5em;
     /* Add space for superscript */
 }
 
@@ -760,15 +579,11 @@ article a:hover {
     margin-top: var(--pad);
 }
 
-@media (max-width: 768px) {
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-}
+
 
 .info-item {
-    grid-column: span 2;
-    /* Default width (1/6th) */
+    grid-column: span 3;
+    /* Default width (1/4th) */
 }
 
 .license-item {
@@ -776,14 +591,7 @@ article a:hover {
     /* Reset to 2 to fit 6 items in 12 cols (6*2=12) */
 }
 
-@media (max-width: 768px) {
 
-    .info-item,
-    .support-item,
-    .license-item {
-        grid-column: auto;
-    }
-}
 
 .info-item h3 {
     font-family: "Helveesti", sans-serif;
@@ -1222,5 +1030,223 @@ button {
         /* Equal width */
         max-width: 400px;
         /* Max width per column */
+    }
+}
+
+
+/* ===================================
+   ARTICLE AUTHORS
+   =================================== */
+.article-authors {
+    max-width: var(--width-text);
+    margin: 0 auto;
+    margin-bottom: calc(1em * var(--lineheight));
+    /* One line of space */
+    text-align: left;
+    font-size: var(--base-size);
+    /* Same as article text */
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    color: #363635;
+}
+
+.article-authors .author-surname {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-weight: 900;
+}
+
+.article-authors .sups {
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-family: "Helveesti Spikes", sans-serif;
+    font-weight: 900;
+}
+
+/* Large screens - adjust layout */
+@media (min-width: 1440px) {
+    :root {
+        --width-text: 40vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --width-text: 60vw;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --width-text: 100%;
+        --lineheight: 1.35;
+    }
+
+    /* Reduce blurred frame/halo on small viewports */
+    body::after {
+        box-shadow: inset 0 0 10px 10px rgba(198, 198, 197, 0.55);
+    }
+
+    /* Mobile Layout Overrides - unified margins */
+    .layout-container {
+        padding-left: 8vw !important;
+        padding-right: 8vw !important;
+    }
+
+    .bibliography-section,
+    .book-section,
+    article {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .intro-header,
+    .bilingual-wrapper {
+        max-width: 100% !important;
+    }
+
+    /* Fix Main Title Explosion */
+    .main-header {
+        max-width: 100%;
+        padding: var(--pad-body) 0;
+        padding-left: 8vw !important;
+        padding-right: 8vw !important;
+    }
+
+    .main-header h1 {
+        font-size: 21vw !important;
+        line-height: 0.875 !important;
+    }
+
+    .main-header .subtitle {
+        font-size: 6vw !important;
+        max-width: 100% !important;
+        line-height: 1.1 !important;
+    }
+
+    .main-header .subtitle .lang-it {
+        padding-left: 16% !important;
+    }
+
+    .bilingual-group:nth-child(odd),
+    .bilingual-group:nth-child(even) {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .bilingual-group p {
+        text-indent: 0 !important;
+    }
+
+    .bibliography-grid {
+        column-count: 1 !important;
+    }
+
+    /* Article text: slightly smaller */
+    article p {
+        font-size: 4.5vw !important;
+    }
+
+    /* Larger captions on mobile for readability */
+    .figure-caption,
+    .figure-caption p {
+        font-size: 4vw !important;
+    }
+
+    .bibliography-item p {
+        font-size: 4vw !important;
+    }
+
+    .info-item p,
+    .info-item h3 {
+        font-size: 4vw !important;
+    }
+
+    /* Section headings same as subtitle */
+    article h2,
+    .intro-header h2 {
+        font-size: 6vw !important;
+        line-height: 1.2 !important;
+    }
+
+    .main-header .subtitle {
+        line-height: 0.905 !important;
+    }
+
+    /* "Get the PDF!" title - 50% of Main Title (21vw / 2 = 10.5vw) */
+    .intro-header h2.centered-title {
+        font-size: 10.5vw !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Enable hover effects on mobile via active/focus */
+    article a:active,
+    article a:focus,
+    .footnote:active,
+    .footnote:focus,
+    .bibliography-item a:active,
+    .bibliography-item a:focus,
+    .info-link:active,
+    .info-link:focus,
+    .license-item a:active,
+    .license-item a:focus,
+    .author-link:active,
+    .author-link:focus,
+    .figure-caption a:active,
+    .figure-caption a:focus {
+        text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+            -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+            0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+            0.06em 0.06em 0.15em rgba(198, 198, 197, 1) !important;
+    }
+
+    /* Dark shadow for Italian text on mobile */
+    .lang-it a:active,
+    .lang-it a:focus {
+        color: rgba(198, 198, 197, 1) !important;
+        text-shadow: -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+            -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+            0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+            0.06em 0.06em 0.15em rgba(54, 54, 53, 1) !important;
+    }
+
+    /* Mobile Images */
+    .figure-wrapper {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column !important;
+        max-width: 70% !important;
+        width: 70% !important;
+        height: auto !important;
+        margin: calc(var(--pad-body) * 0.75) auto !important;
+        right: auto !important;
+        left: auto !important;
+    }
+
+    /* Mobile - Full Width Images */
+    .figure-full {
+        width: 70vw !important;
+        max-width: 70vw !important;
+        margin: calc(var(--pad-body) * 1.5) auto !important;
+    }
+
+    /* Mobile - Footnote Popup */
+    .footnote-popup {
+        max-width: 80vw !important;
+    }
+
+    /* --- MERGED BLOCKS --- */
+    /* Mobile Adjustments for Hero */
+    .hero-section {
+        min-height: 100svh;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-item,
+    .support-item,
+    .license-item {
+        grid-column: auto;
     }
 }
