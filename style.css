@@ -792,6 +792,32 @@ article a:hover {
 
 /* Mobile images handling is in the 768px media query above */
 
+/* Links inside footnotes */
+.footnote-popup-text a,
+.footnote-popup-text a:visited,
+.footnote-popup-text a:active {
+    color: inherit !important;
+    /*text-decoration: none;*/
+}
+.footnote-popup-text a:hover {
+    text-decoration: none;
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+/* Italian footnote links hover (inverted) */
+.footnote-popup.lang-it .footnote-popup-text a:hover {
+    color: rgba(198, 198, 197, 1) !important;
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+        -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+        0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+        0.06em 0.06em 0.15em rgba(54, 54, 53, 1);
+}
+
+
 /* ===================================
    FIGURE & CAPTIONS (Replaces floating-image on img)
    =================================== */
@@ -1295,8 +1321,20 @@ button {
     }
 
     /* Mobile - Footnote Popup */
-    .footnote-popup {
+   .footnote-popup {
         max-width: 80vw !important;
+        /* Reset transform for mobile positioning (remove translateY) */
+        transform: scale(0.9);
+    }
+
+    .footnote-popup.active {
+        transform: scale(1) !important;
+    }
+
+    .footnote-popup-content,
+    .footnote-popup-text {
+        font-size: 4vw !important;
+        line-height: 1.3 !important;
     }
 
     /* --- MERGED BLOCKS --- */

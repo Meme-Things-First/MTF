@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Il termine “autopoiesi” è impiegato in modo particolarmente pertinente dalla storica del design Maddalena Dalla Mura nel saggio “The Relationship of Graphic Designers with Exhibiting and Curating”. <i>Graphisme en France</i>, 24, 2018,pp. 28-41. Dalla Mura riprende a sua volta l\'uso del concetto così come compare in Rob Giampietro, “School Days”, in Blauvelt, Andrew & Lupton, Ellen (eds.). <i>Graphic Design: Now in Production</i>, pp. 212-221 Walker Art Center/Cooper-Hewitt, 2011.'
         },
         '8': {
-            en: 'https://linedandunlined.com/archive/school-days/. Orig. in Blauvelt, Andrew & Lupton, Ellen. <i>Graphic Design: Now in Production</i>, pp. 212-221. Walker Art Center/Cooper-Hewitt, 2011. Giampietro, Rob. <i>School Days</i>. Lined & Unlined, 2012.',
-            it: 'https://linedandunlined.com/archive/school-days/. Orig. in Blauvelt, Andrew & Lupton, Ellen. <i>Graphic Design: Now in Production</i>, pp. 212-221. Walker Art Center/Cooper-Hewitt, 2011. Giampietro, Rob. <i>School Days</i>. Lined & Unlined, 2012.'
+            en: '<a href="https://linedandunlined.com/archive/school-days/" target="_blank" rel="noopener noreferrer">https://linedandunlined.com/archive/school-days/</a>. Orig. in Blauvelt, Andrew & Lupton, Ellen. <i>Graphic Design: Now in Production</i>, pp. 212-221. Walker Art Center/Cooper-Hewitt, 2011. Giampietro, Rob. <i>School Days</i>. Lined & Unlined, 2012.',
+            it: '<a href="https://linedandunlined.com/archive/school-days/" target="_blank" rel="noopener noreferrer">https://linedandunlined.com/archive/school-days/</a>. Orig. in Blauvelt, Andrew & Lupton, Ellen. <i>Graphic Design: Now in Production</i>, pp. 212-221. Walker Art Center/Cooper-Hewitt, 2011. Giampietro, Rob. <i>School Days</i>. Lined & Unlined, 2012.'
         },
         '9': {
             en: 'The quote is taken from a T-shirt designed by Afonso de Matos as part of his thesis project <i>Who Can Afford To Be Critical? What Can Criticality Afford?</i>, developed for the MA in Information Design at the Design Academy Eindhoven. The full text reads: “Inside of me there are two wolves... One is graduating from a critical design school; the other one is unemployed.',
@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Van Toorn, Jan. “Deschooling and learning in design education.” In Frascara, Jorge. <i>User-Centred Graphic Design: Mass Communication And Social Change.</i> CRC Press, 1997, pp. 126-129.'
         },
         '11': {
-            en: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. https://networkcultures.org/entreprecariat/no-problem-design/.',
-            it: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. https://networkcultures.org/entreprecariat/no-problem-design/.'
+            en: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. <a href="https://https://networkcultures.org/entreprecariat/no-problem-design/" target="_blank" rel="noopener noreferrer">https://networkcultures.org/entreprecariat/no-problem-design/</a>.',
+            it: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. <a href="https://https://networkcultures.org/entreprecariat/no-problem-design/" target="_blank" rel="noopener noreferrer">https://networkcultures.org/entreprecariat/no-problem-design/</a>.'
         },
         '12': {
-            en: 'The quote refers to the documentary “Het nuove ontwerplandschap” (“The new design landscape” 2016) by Erwin Slegers, head of the graphic design department at HKU University of the Arts in Utrecht, the Netherlands. The film shows a series of conversations with professionals in the field focusing on possible new perspectives in design. https://studiohyperspace.net/2017/03/31/the-new-design-landscape/.',
-            it: 'La citazione fa riferimento al documentario “Het nuove ontwerplandschap” (“Il nuovo paesaggio del design”, 2016) a cura di Erwin Slegers, capo di dipartimento di graphic design presso la HKU University of the Arts a Utrecht, in Olanda. Il film mostra una serie di conversazioni con professionistx del settore incentrate su possibili nuove prospettive del design. https://studiohyperspace.net/2017/03/31/the-new-design-landscape/.'
+            en: 'The quote refers to the documentary “Het nuove ontwerplandschap” (“The new design landscape” 2016) by Erwin Slegers, head of the graphic design department at HKU University of the Arts in Utrecht, the Netherlands. The film shows a series of conversations with professionals in the field focusing on possible new perspectives in design.',
+            it: 'La citazione fa riferimento al documentario “Het nuove ontwerplandschap” (“Il nuovo paesaggio del design”, 2016) a cura di Erwin Slegers, capo di dipartimento di graphic design presso la HKU University of the Arts a Utrecht, in Olanda. Il film mostra una serie di conversazioni con professionistx del settore incentrate su possibili nuove prospettive del design.'
         },
         '13': {
             en: 'Salvia, Mattia. <i>Interregno. Iconografie del XXI secolo</i>. Nero, 2022.',
@@ -77,12 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Cfr. Piata, Anna. “When metaphor becomes a joke: Metaphor Journeys from political ads to internet memes”. <i>Journal of Pragmatics</i>, 106, 2016, pp. 39-56; Scott, Kate. “Memes as multimodal metaphors: a relevance theory analysis”. <i>Pragmatics and Cognition</i>, 28(2), 2021.'
         },
         '15': {
-            en: 'Nieubuurt, Joshua. Internet memes: Leaflet propaganda of the digital age. <i>Frontiers in Communication</i>, 5, 2021, pp.1-14. https://doi.org/10.3389/fcomm.2020.547065.',
-            it: 'Nieubuurt, Joshua. Internet memes: Leaflet propaganda of the digital age. <i>Frontiers in Communication</i>, 5, 2021, pp.1-14. https://doi.org/10.3389/fcomm.2020.547065.'
+            en: 'Nieubuurt, Joshua. Internet memes: Leaflet propaganda of the digital age. <i>Frontiers in Communication</i>, 5, 2021, pp.1-14. <a href="https://doi.org/10.3389/fcomm.2020.547065" target="_blank" rel="noopener noreferrer">https://doi.org/10.3389/fcomm.2020.547065</a>.',
+            it: 'Nieubuurt, Joshua. Internet memes: Leaflet propaganda of the digital age. <i>Frontiers in Communication</i>, 5, 2021, pp.1-14. <a href="https://doi.org/10.3389/fcomm.2020.547065" target="_blank" rel="noopener noreferrer">https://doi.org/10.3389/fcomm.2020.547065</a>.'
         },
         '16': {
-            en: 'Bühler, Melanie. Tortured Disney, False Truths and Conflicted Memes: Institutional Critique in the Age of Networked Capitalism. <i>Arts of the Working Class</i>, 2022. https://artsoftheworkingclass.org/text/tortured-disney-false-truths-and-conflicted-memes.',
-            it: 'Bühler, Melanie. Tortured Disney, False Truths and Conflicted Memes: Institutional Critique in the Age of Networked Capitalism. <i>Arts of the Working Class</i>, 2022. https://artsoftheworkingclass.org/text/tortured-disney-false-truths-and-conflicted-memes.'
+            en: 'Bühler, Melanie. Tortured Disney, False Truths and Conflicted Memes: Institutional Critique in the Age of Networked Capitalism. <i>Arts of the Working Class</i>, 2022. <a href="https://artsoftheworkingclass.org/text/tortured-disney-false-truths-and-conflicted-memes" target="_blank" rel="noopener noreferrer">https://artsoftheworkingclass.org/text/tortured-disney-false-truths-and-conflicted-memes</a>.',
+            it: 'Bühler, Melanie. Tortured Disney, False Truths and Conflicted Memes: Institutional Critique in the Age of Networked Capitalism. <i>Arts of the Working Class</i>, 2022. <a href="https://artsoftheworkingclass.org/text/tortured-disney-false-truths-and-conflicted-memes" target="_blank" rel="noopener noreferrer">https://artsoftheworkingclass.org/text/tortured-disney-false-truths-and-conflicted-memes</a>.'
         },
         '17': {
             en: 'Pepi, Mike. The Meme Accounts Upending the Art World\'s Class System. <i>Frieze Magazine</i>, (211), 2020.',
@@ -93,16 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Galip, Idil. Propaganda, Digital Diplomacy, Meme Wars: How Digital Confrontation Is Shaping the New World Order. In Ferrari, Aldo & Eleonora Tafuro Ambrosetti (a c. di), <i>Multipolarity After Ukraine. Old Wine in New Bottles?</i>, pp. 95-112. Ledizioni LediPublishing, 2023.'
         },
         '19': {
-            en: 'The text refers to an image entitled “A typical interaction with Dank Lloyd Wright\'s collective” taken from the article: Comoglio, Giovanni. “Sono i meme la nuova frontiera delal critica in architettura?” <i>Domusweb</i>, 2020. https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html.',
-            it: 'Il testo si riferisce a un\'immagine intitolata “Una interazione tipo con il collettivo di Dank Lloyd Wright” tratta dall\'articolo: Comoglio, Giovanni. “Sono i meme la nuova frontiera della critica in architettura?” <i>Domusweb</i>, 2020. https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html.'
+            en: 'The text refers to an image entitled “A typical interaction with Dank Lloyd Wright\'s collective” taken from the article: Comoglio, Giovanni. “Sono i meme la nuova frontiera delal critica in architettura?” <i>Domusweb</i>, 2020. <a href="https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html" target="_blank" rel="noopener noreferrer">https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html</a>.',
+            it: 'Il testo si riferisce a un\'immagine intitolata “Una interazione tipo con il collettivo di Dank Lloyd Wright” tratta dall\'articolo: Comoglio, Giovanni. “Sono i meme la nuova frontiera della critica in architettura?” <i>Domusweb</i>, 2020. <a href="https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html" target="_blank" rel="noopener noreferrer">https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html</a>.'
         },
         '20': {
             en: 'Lorusso, Silvio. <i>What Design Can\'t Do. Essays on Design and Disillusion</i>. Set Margins\', 2023.',
             it: 'Lorusso, Silvio. <i>What Design Can\'t Do. Essays on Design and Disillusion</i>. Set Margins\', 2023.'
         },
         '21': {
-            en: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. https://buttondownemail/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/.',
-            it: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. https://buttondownemail/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/.'
+            en: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. <a href="https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/" target="_blank" rel="noopener noreferrer">https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/</a>.',
+            it: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. <a href="https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/" target="_blank" rel="noopener noreferrer">https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/</a>.'
         }
     };
 
@@ -149,10 +149,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
-            // Position to the right of the footnote number
-            popup.style.position = 'absolute';
-            popup.style.left = `${rect.right + scrollLeft + 10}px`; // 10px offset to the right
-            popup.style.top = `${rect.top + scrollTop}px`;
+            // Mobile check (matching CSS breakpoint)
+            if (window.innerWidth <= 768) {
+                // Position below the text, centered horizontally (approx 10vw margin)
+                popup.style.position = 'absolute';
+                popup.style.left = '10vw'; 
+                popup.style.top = `${rect.bottom + scrollTop + 10}px`;
+            } else {
+                // Desktop: Position to the right of the footnote number
+                popup.style.position = 'absolute';
+                popup.style.left = `${rect.right + scrollLeft + 10}px`; 
+                popup.style.top = `${rect.top + scrollTop}px`;
+            }
         }
 
         popup.classList.add('active');
