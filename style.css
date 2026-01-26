@@ -17,6 +17,20 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'G2Ciao';
+    src: url('G2Ciao-SilentSharp.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Untimes';
+    src: url('Untimes-BoldItalic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+
 /* ===================================
    CSS CUSTOM PROPERTIES
    =================================== */
@@ -1010,7 +1024,18 @@ button {
 }
 
 .footer-col a:hover {
-    text-shadow: 0 0 10px currentColor;
+    text-shadow: -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.footer-col .lang-it a:hover {
+    color: rgba(198, 198, 197, 1);
+    text-shadow: -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+        -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+        0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+        0.06em 0.06em 0.15em rgba(54, 54, 53, 1);
 }
 
 /* Desktop: Side by side */
@@ -1061,6 +1086,32 @@ button {
     font-family: "Helveesti Spikes", sans-serif;
     font-weight: 900;
 }
+
+
+/* ===================================
+   PROJECT INTRO
+   =================================== */
+.project-intro {
+    max-width: var(--width-text);
+    margin: 0 auto;
+    margin-top: 10vh;
+    margin-bottom: 20vh;
+    /* Large space before article */
+    text-align: left;
+    text-wrap: pretty;
+}
+
+.project-intro p {
+    font-size: calc(var(--base-size) * 1.5);
+    /* Same as article */
+    font-family: 'Untimes', sans-serif;
+    line-height: var(--lineheight);
+    margin: 0;
+    display: block;
+    padding: 0;
+}
+
+
 
 /* Large screens - adjust layout */
 @media (min-width: 1440px) {
