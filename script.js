@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Van Toorn, Jan. “Deschooling and learning in design education.” In Frascara, Jorge. <i>User-Centred Graphic Design: Mass Communication And Social Change.</i> CRC Press, 1997, pp. 126-129.'
         },
         '11': {
-            en: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. <a href="https://https://networkcultures.org/entreprecariat/no-problem-design/" target="_blank" rel="noopener noreferrer">https://networkcultures.org/entreprecariat/no-problem-design/</a>.',
-            it: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. <a href="https://https://networkcultures.org/entreprecariat/no-problem-design/" target="_blank" rel="noopener noreferrer">https://networkcultures.org/entreprecariat/no-problem-design/</a>.'
+            en: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. <a href="https://networkcultures.org/entreprecariat/no-problem-design/" target="_blank" rel="noopener noreferrer">https://networkcultures.org/entreprecariat/no-problem-design/</a>.',
+            it: 'Cfr. Lorusso, Silvio. “No Problem: Design School as Promise.” <i>Institute of Network Cultures,</i> 2020. <a href="https://networkcultures.org/entreprecariat/no-problem-design/" target="_blank" rel="noopener noreferrer">https://networkcultures.org/entreprecariat/no-problem-design/</a>.'
         },
         '12': {
             en: 'The quote refers to the documentary “Het nuove ontwerplandschap” (“The new design landscape” 2016) by Erwin Slegers, head of the graphic design department at HKU University of the Arts in Utrecht, the Netherlands. The film shows a series of conversations with professionals in the field focusing on possible new perspectives in design.',
