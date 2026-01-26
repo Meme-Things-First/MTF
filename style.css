@@ -589,7 +589,7 @@ article a:hover {
 }
 
 .intro-header h2 {
-    padding-top: 0.5em;
+    padding-top: 0;
     /* Add space for superscript */
 }
 
@@ -712,6 +712,33 @@ article a:hover {
 }
 
 /* ===================================
+   ARTICLE EXCERPT
+   =================================== */
+.article-excerpt {
+    margin-top: 2vw;
+    max-width: var(--width-text);
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 20%;
+    box-sizing: border-box;
+}
+
+.article-excerpt p {
+    font-size: var(--caption-size);
+    line-height: var(--lineheight);
+    margin: 0;
+    text-align: left;
+    text-wrap: pretty;
+}
+
+.article-excerpt .lang-it {
+    margin: 0;
+    display: block;
+    color: #878786;
+    /* Maintain visibility */
+}
+
+/* ===================================
    INFO SECTION (4 columns)
    =================================== */
 .info-section {
@@ -728,7 +755,7 @@ article a:hover {
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(14, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     gap: var(--pad);
     margin-top: var(--pad);
 }
@@ -976,6 +1003,7 @@ article a:hover {
     font-family: "Helveesti", sans-serif;
     font-size: var(--caption-size);
     line-height: var(--lineheight-small);
+    text-wrap: pretty;
     padding: 0;
     margin-top: var(--base-size);
     /* Space between image and caption */
@@ -1126,5 +1154,73 @@ button {
     .book-section {
         padding-left: var(--pad-body);
         padding-right: var(--pad-body);
+    }
+}
+
+/* ===================================
+   COOKIE SECTION
+   =================================== */
+/* ===================================
+   FOOTER SECTION
+   =================================== */
+.footer-section {
+    margin-top: 10vh;
+    width: 100%;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    /* Mobile first: stack */
+    align-items: center;
+    gap: var(--pad-sm);
+
+    padding-bottom: 0;
+}
+
+.footer-col {
+    text-align: center;
+    max-width: var(--width-text);
+    /* Limit width for nice reading */
+}
+
+.footer-col p {
+    font-size: var(--caption-size);
+    line-height: var(--lineheight);
+    margin: 0;
+    text-wrap: pretty;
+}
+
+.footer-col .lang-it {
+    display: inline;
+    margin: 0;
+}
+
+.footer-col a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.footer-col a:hover {
+    text-shadow: 0 0 10px currentColor;
+}
+
+/* Desktop: Side by side */
+@media (min-width: 769px) {
+    .footer-section {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: var(--pad);
+        /* Spacing between columns */
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+
+    .footer-col {
+        flex: 1;
+        /* Equal width */
+        max-width: 400px;
+        /* Max width per column */
     }
 }
