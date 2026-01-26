@@ -775,6 +775,7 @@ article a:hover {
     /* Basic Feather effect */
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
+    text-wrap: pretty;
 }
 
 /* Italian footnotes - inverted colors */
