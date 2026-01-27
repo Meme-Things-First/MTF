@@ -1117,7 +1117,7 @@ button {
         gap: var(--pad);
         padding-left: 10vw;
         padding-right: 10vw;
-        padding-bottom: 10vw;
+        padding-bottom: 0;
         /* Matching visual spacing */
     }
 
@@ -1437,11 +1437,11 @@ button {
     /* Main text color */
     cursor: pointer;
     padding: 0;
-    font-family: "Helveesti Spikes", sans-serif;
-    /* Helveesti Spikes font */
-    font-size: var(--large-size);
-    /* Clearly visible arrow */
-    font-weight: 900;
+    font-family: inherit;
+    /* Use inherit or system font for emoji */
+    font-size: 2.5rem;
+    /* Reduced size for emoji */
+    font-weight: normal;
     opacity: 0;
     transition: opacity 0.3s ease, text-shadow 0.3s ease;
 }
@@ -1490,21 +1490,19 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3.5rem;
+    width: auto;
     height: auto;
+    font-size: 3rem;
+    line-height: 1;
+    transition: text-shadow 0.3s ease;
 }
 
-.menu-toggle img {
-    width: 100%;
-    height: auto;
-    display: block;
-    box-shadow: none !important;
-    filter: none;
-    transition: filter 0.3s ease;
-}
-
-.menu-toggle:hover img {
-    filter: drop-shadow(0 2px 15px rgba(54, 54, 53, 0.25)) drop-shadow(0 4px 40px rgba(54, 54, 53, 0.35));
+.menu-toggle:hover {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
 }
 
 .menu-overlay {
@@ -1571,5 +1569,26 @@ button {
 }
 
 .footer-section {
-    padding-bottom: var(--pad-body);
+    padding-bottom: 0;
+}
+
+/* ===================================
+   END LOGO
+   =================================== */
+.end-logo {
+    width: 100%;
+    margin-top: 10vh;
+    margin-bottom: calc(var(--pad-body) * 2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    user-select: none;
+}
+
+.end-logo img {
+    width: 80px;
+    height: auto;
+    box-shadow: none !important;
+    display: block;
 }
