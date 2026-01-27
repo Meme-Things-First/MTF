@@ -153,12 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth <= 768) {
                 // Position below the text, centered horizontally (approx 10vw margin)
                 popup.style.position = 'absolute';
-                popup.style.left = '10vw'; 
+                popup.style.left = '10vw';
                 popup.style.top = `${rect.bottom + scrollTop + 10}px`;
             } else {
                 // Desktop: Position to the right of the footnote number
                 popup.style.position = 'absolute';
-                popup.style.left = `${rect.right + scrollLeft + 10}px`; 
+                popup.style.left = `${rect.right + scrollLeft + 10}px`;
                 popup.style.top = `${rect.top + scrollTop}px`;
             }
         }
@@ -230,26 +230,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const mybutton = document.getElementById("scroll_top");
     const menuContainer = document.querySelector(".hamburger-menu");
 
-    if (mybutton) {
-        window.onscroll = function () {
-            scrollFunction();
-        };
+    function setupVisibilityObserver() {
+        const targetSection = document.getElementById('introduction');
+
+        if (!targetSection) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // If the target is intersecting or we are past it (bounding rect top < 0)
+                // Actually intersection observer is good for entering/leaving. 
+                // But we want it to STAY visible after this point.
+                // So we check if the element's top is less than or equal to window height (meaning it has entered view)
+                // However, standard intersection only tells us about crossing.
+                // Better approach: toggle 'visible' based on scroll position relative to the element's offsetTop.
+
+                // Let's stick to scroll listener but use the element's position dynamiccaly?
+                // Or simplified: if entry is intersecting, show it? No, if we scroll past it, it might stop intersecting.
+
+                // Let's go back to scroll event but using element offset.
+                checkVisibility();
+            });
+        });
+
+        // observer.observe(targetSection); // Scroll event is more reliable for "after point X" persistence
     }
 
-    function scrollFunction() {
-        // Calculate the threshold: when user scrolls past the hero section
-        // Hero section is 100vh, so we show elements when scrolled past that
-        const heroHeight = window.innerHeight; // 100vh
-        const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
+    function checkVisibility() {
+        const targetSection = document.getElementById('introduction');
+        if (!targetSection) return;
 
-        // Show menu and scroll-to-top after hero section
-        if (scrollPosition > heroHeight) {
+        const rect = targetSection.getBoundingClientRect();
+        // Visible when the top of the element is within the viewport (e.g. nearing top) or we have scrolled past it.
+        // The request is "quando appare ... e non prima".
+        // So as soon as it enters the viewport? Or when it reaches the top?
+        // Usually "appears" means enters viewport from bottom.
+        // rect.top < window.innerHeight
+
+        const triggerPoint = window.innerHeight; // When element enters viewport
+
+        if (rect.top <= triggerPoint) {
             if (menuContainer) {
                 menuContainer.classList.add("visible");
             }
-
             mybutton.style.display = "block";
-            // Use setTimeout to allow display:block to apply before changing opacity for transition
             setTimeout(() => {
                 mybutton.style.opacity = "1";
             }, 10);
@@ -257,15 +280,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (menuContainer) {
                 menuContainer.classList.remove("visible");
             }
-
             mybutton.style.opacity = "0";
-            // Wait for transition to finish before hiding
             setTimeout(() => {
-                if (scrollPosition <= heroHeight) {
+                // double check status before hiding
+                const currentRect = targetSection.getBoundingClientRect();
+                if (currentRect.top > triggerPoint) {
                     mybutton.style.display = "none";
                 }
             }, 300);
         }
+    }
+
+    if (mybutton || menuContainer) {
+        window.addEventListener('scroll', checkVisibility);
+        // Initial check
+        checkVisibility();
     }
 
     window.topFunction = function () {

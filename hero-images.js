@@ -150,15 +150,15 @@ class HeroImages {
 
         // Maximum constraints to ensure images fit
         const maxWidthVw = isMobile ? 60 : 40; // Max 60vw on mobile
-        const maxHeightVh = isMobile ? 70 : 40; // Mobile: 70vh for better positioning, Desktop: 40vh
+        const maxHeightVh = isMobile ? 50 : 40; // Mobile: 50vh to allow better positioning, Desktop: 40vh
 
         // Calculate safe positioning with generous padding to avoid border frame
         const padding = 2; // Reduced padding on mobile for more space
         // Use actual size for horizontal constraint to maximize space
         const maxLeft = Math.max(padding, 100 - sizeVw - padding);
         // Calculate max top to ensure images don't get cut off at bottom
-        // On mobile, allow images to fill the entire height; on desktop, be more conservative
-        const maxTopPercent = isMobile ? 85 : Math.max(padding, 100 - maxHeightVh - padding);
+        // Apply safe limit for both mobile and desktop
+        const maxTopPercent = Math.max(padding, 100 - maxHeightVh - padding);
         const maxTop = maxTopPercent;
 
         // Define exclusion zone (small center area where title is)
