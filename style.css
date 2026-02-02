@@ -1196,6 +1196,14 @@ button {
     :root {
         --width-text: 40vw;
     }
+
+    .main-header .subtitle .lang-it {
+        padding-left: 20%;
+    }
+
+    .main-header .subtitle {
+        padding-left: 0;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -1463,7 +1471,7 @@ button {
     top: 48%;
     /* Optical centering adjustment */
     transform: translateY(-50%);
-    left: max(2.5vw, calc((100vw - var(--width-text)) / 2 - 20vw));
+    left: var(--pad-body);
     z-index: 10000;
     opacity: 0;
     visibility: hidden;
