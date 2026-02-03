@@ -1174,7 +1174,7 @@ button {
     margin-top: 10vh;
     margin-bottom: 20vh;
     /* Large space before article */
-    text-align: left;
+    text-align: center;
     text-wrap: pretty;
 }
 
@@ -1331,7 +1331,7 @@ button {
     }
 
     .project-intro p {
-        font-size: 6vw !important;
+        font-size: 5.5vw !important;
         line-height: 1.2 !important;
     }
 
