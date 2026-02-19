@@ -383,7 +383,7 @@ article h1 {
 }
 
 article h2 {
-    font-size: 2vw !important;
+    font-size: var(--medium-size) !important;
     line-height: 0.905;
     padding-top: calc(var(--pad-body) * 4);
     padding-bottom: calc(var(--pad-body) * 4 / 3);
@@ -1084,6 +1084,10 @@ button {
 .footer-col .lang-it {
     display: inline;
     margin: 0;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
 }
 
 .footer-col a {
@@ -1314,6 +1318,13 @@ button {
         font-size: 4vw !important;
     }
 
+    .footer-col p {
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+    }
+
     .article-excerpt {
         padding-left: 0 !important;
     }
@@ -1338,7 +1349,7 @@ button {
     /* "Get the PDF!" title - 50% of Main Title (21vw / 2 = 10.5vw) */
     .intro-header h2.centered-title {
         font-size: 10.5vw !important;
-        line-height: 0.905 !important;
+        line-height: 1.1 !important;
     }
 
     /* Enable hover effects on mobile via active/focus */
@@ -1549,10 +1560,13 @@ button {
     text-align: left;
     padding: 0;
     margin: 0;
+    display: block;
+    width: auto;
 }
 
 .menu-overlay li {
     margin: var(--pad-xs) 0;
+    white-space: nowrap;
 }
 
 .menu-link {
@@ -1562,10 +1576,11 @@ button {
     text-decoration: none;
     color: #363635;
     font-weight: 900;
-    line-height: var(--lineheight);
+    line-height: calc(var(--lineheight) / 2);
     letter-spacing: 0.025em;
     transition: all 0.2s ease;
     display: block;
+    mix-blend-mode: difference;
 }
 
 .menu-link:hover {
