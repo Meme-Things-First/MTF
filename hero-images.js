@@ -30,19 +30,16 @@ class HeroImages {
             return;
         }
 
-        console.log('Loading images from Are.na...');
-
         try {
             await this.loadImagesFromArena();
             if (this.images.length > 0) {
                 this.startAnimation();
                 this.initialized = true;
-                console.log(`Loaded ${this.images.length} images from Are.na`);
-            } else {
-                console.warn('No images found in Are.na channel');
             }
         } catch (error) {
-            console.error('Error loading images from Are.na:', error);
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                console.warn('Hero images: Are.na API error', error);
+            }
         }
     }
 
@@ -69,13 +66,10 @@ class HeroImages {
                         id: block.id
                     }));
             } else {
-                console.warn('No contents array in Are.na response');
                 this.images = [];
             }
 
         } catch (error) {
-            console.error('Failed to load from Are.na:', error);
-
             // Fallback: use test images if API fails (development only)
             if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                 this.useFallbackImages();
@@ -93,7 +87,6 @@ class HeroImages {
             { url: 'https://via.placeholder.com/350x350/363635/c6c6c5?text=MEME+3', title: 'Test 3', id: 3 },
             { url: 'https://via.placeholder.com/300x400/363635/c6c6c5?text=MEME+4', title: 'Test 4', id: 4 }
         ];
-        console.log('Loaded fallback images:', this.images.length);
     }
 
     startAnimation() {

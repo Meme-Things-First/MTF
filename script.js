@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Galip, Idil. Propaganda, Digital Diplomacy, Meme Wars: How Digital Confrontation Is Shaping the New World Order. In Ferrari, Aldo & Eleonora Tafuro Ambrosetti (a c. di), <i>Multipolarity After Ukraine. Old Wine in New Bottles?</i>, pp. 95-112. Ledizioni LediPublishing, 2023.'
         },
         '19': {
-            en: 'The text refers to an image entitled “A typical interaction with Dank Lloyd Wright\'s collective” taken from the article: Comoglio, Giovanni. “Sono i meme la nuova frontiera delal critica in architettura?” <i>Domusweb</i>, 2020. <a href="https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html" target="_blank" rel="noopener noreferrer">https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html</a>.',
+            en: 'The text refers to an image entitled “A typical interaction with Dank Lloyd Wright\'s collective” taken from the article: Comoglio, Giovanni. “Sono i meme la nuova frontiera della critica in architettura?” <i>Domusweb</i>, 2020. <a href="https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html" target="_blank" rel="noopener noreferrer">https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html</a>.',
             it: 'Il testo si riferisce a un\'immagine intitolata “Una interazione tipo con il collettivo di Dank Lloyd Wright” tratta dall\'articolo: Comoglio, Giovanni. “Sono i meme la nuova frontiera della critica in architettura?” <i>Domusweb</i>, 2020. <a href="https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html" target="_blank" rel="noopener noreferrer">https://www.domusweb.it/it/architettura/gallery/2020/07/09/meme-o-non-e-successo.html</a>.'
         },
         '20': {
@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Lorusso, Silvio. <i>What Design Can\'t Do. Essays on Design and Disillusion</i>. Set Margins\', 2023.'
         },
         '21': {
-            en: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. <a href="https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/" target="_blank" rel="noopener noreferrer">https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/</a>.',
-            it: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. <a href="https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/" target="_blank" rel="noopener noreferrer">https://buttondown.com/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/</a>.'
+            en: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. <a href="https://buttondown.email/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/" target="_blank" rel="noopener noreferrer">https://buttondown.email/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/</a>.',
+            it: 'Lorusso, Silvio. May the Bridges We Burn Light the Way”: Five Questions to a Dutch Design School\'s Meme Page. Interview with @wdka.teachermemes. <i>Other Worlds</i>, 2021. <a href="https://buttondown.email/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/" target="_blank" rel="noopener noreferrer">https://buttondown.email/otherworlds/archive/ow-3-may-the-bridges-we-burn-light-the-way-five/</a>.'
         }
     };
 
@@ -230,31 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mybutton = document.getElementById("scroll_top");
     const menuContainer = document.querySelector(".hamburger-menu");
 
-    function setupVisibilityObserver() {
-        const targetSection = document.getElementById('introduction');
-
-        if (!targetSection) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // If the target is intersecting or we are past it (bounding rect top < 0)
-                // Actually intersection observer is good for entering/leaving. 
-                // But we want it to STAY visible after this point.
-                // So we check if the element's top is less than or equal to window height (meaning it has entered view)
-                // However, standard intersection only tells us about crossing.
-                // Better approach: toggle 'visible' based on scroll position relative to the element's offsetTop.
-
-                // Let's stick to scroll listener but use the element's position dynamiccaly?
-                // Or simplified: if entry is intersecting, show it? No, if we scroll past it, it might stop intersecting.
-
-                // Let's go back to scroll event but using element offset.
-                checkVisibility();
-            });
-        });
-
-        // observer.observe(targetSection); // Scroll event is more reliable for "after point X" persistence
-    }
-
     function checkVisibility() {
         const targetSection = document.getElementById('introduction');
         if (!targetSection) return;
@@ -292,8 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (mybutton || menuContainer) {
-        window.addEventListener('scroll', checkVisibility);
-        // Initial check
+        window.addEventListener('scroll', checkVisibility, { passive: true });
         checkVisibility();
     }
 

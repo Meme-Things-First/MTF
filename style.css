@@ -18,23 +18,18 @@
 }
 
 @font-face {
-    font-family: 'G2Ciao';
-    src: url('G2Ciao-SilentSharp.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
     font-family: 'Untimes';
     src: url('Fonts/Untimes-BoldItalic.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 /* ===================================
    CSS CUSTOM PROPERTIES
    =================================== */
 :root {
+    color-scheme: light;
     /* Fluid typography: scales smoothly from 13px to 18px */
     --base-grid: clamp(0.8125rem, 0.65rem + 0.45vw, 1.125rem);
     --article-size: clamp(1rem, 0.8rem + 0.5vw, 1.15625rem);
@@ -440,7 +435,6 @@ article a:hover {
 }
 
 /* Specific adjustment for intro header superscripts */
-/* Specific adjustment for intro header superscripts */
 .intro-header h2 .sups {
     font-weight: 900;
     line-height: 1;
@@ -820,8 +814,6 @@ article a:hover {
     /* Basic Feather effect */
 }
 
-/* Mobile images handling is in the 768px media query above */
-
 /* Links inside footnotes */
 .footnote-popup-text a,
 .footnote-popup-text a:visited,
@@ -1024,14 +1016,6 @@ button {
 }
 
 /* ===================================
-   BIBLIOGRAPHY SECTION
-   =================================== */
-.bibliography-section {
-    margin-top: 10vh;
-    /* Match spacing rhythm */
-}
-
-/* ===================================
    BOOK SECTION
    =================================== */
 .book-section {
@@ -1050,9 +1034,6 @@ button {
     }
 }
 
-/* ===================================
-   COOKIE SECTION
-   =================================== */
 /* ===================================
    FOOTER SECTION
    =================================== */
@@ -1614,4 +1595,17 @@ button {
     height: auto;
     box-shadow: none !important;
     display: block;
+}
+
+/* ===================================
+   ACCESSIBILITY: REDUCED MOTION
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
