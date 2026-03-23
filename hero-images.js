@@ -11,16 +11,11 @@ class HeroImages {
         // Configuration
         this.config = {
             arenaSlug: 'meme-things-first',
-            arenaUser: 'rebecca-bertero',
             minInterval: 150,        // Very fast pop-ups!
             maxInterval: 300,        // Very fast!
             minDuration: 500,        // Short visibility
             maxDuration: 1000,       // Short visibility
-            maxSimultaneous: 6,      // More images at once
-            imageSize: {
-                min: 150,
-                max: 300
-            }
+            maxSimultaneous: 6       // More images at once
         };
     }
 
@@ -30,10 +25,16 @@ class HeroImages {
             return;
         }
 
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         try {
             await this.loadImagesFromArena();
             if (this.images.length > 0) {
-                this.startAnimation();
+                if (prefersReducedMotion) {
+                    this.showRandomImage({ staticMode: true });
+                } else {
+                    this.startAnimation();
+                }
                 this.initialized = true;
             }
         } catch (error) {
@@ -45,10 +46,19 @@ class HeroImages {
 
     async loadImagesFromArena() {
         try {
-            // Fetch channel data from Are.na API with per parameter to get more blocks
-            const url = `https://api.are.na/v2/channels/${this.config.arenaSlug}?per=100`;
+            // Are.na API v3: fetch channel contents (paginated)
+            // We only load the first page to keep this client-side lightweight.
+            const url = `https://api.are.na/v3/channels/${this.config.arenaSlug}/contents?page=1&per=100`;
 
-            const response = await fetch(url);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+            let response;
+            try {
+                response = await fetch(url, { signal: controller.signal });
+            } finally {
+                clearTimeout(timeoutId);
+            }
 
             if (!response.ok) {
                 throw new Error(`Are.na API error: ${response.status}`);
@@ -57,17 +67,38 @@ class HeroImages {
             const data = await response.json();
 
             // Extract image URLs from channel contents
-            if (data.contents && Array.isArray(data.contents)) {
-                this.images = data.contents
-                    .filter(block => block.class === 'Image')
-                    .map(block => ({
-                        url: block.image.display.url,
-                        title: block.title || '',
-                        id: block.id
-                    }));
-            } else {
+            const contents = data?.data;
+            if (!Array.isArray(contents)) {
                 this.images = [];
+                return;
             }
+
+            const pickImageUrl = (image) => {
+                if (!image || typeof image !== 'object') return null;
+                // In v3, `image.large/medium/square` are objects like: { src, width, height }
+                return (
+                    image?.large?.src ||
+                    image?.medium?.src ||
+                    image?.square?.src ||
+                    image?.small?.src ||
+                    image?.src ||
+                    null
+                );
+            };
+
+            this.images = contents
+                .filter(block => block?.type === 'Image')
+                .map(block => {
+                    const image = block.image;
+                    const url = pickImageUrl(image);
+                    if (!url) return null;
+                    return {
+                        url,
+                        title: block?.title || image?.alt_text || '',
+                        id: block?.id
+                    };
+                })
+                .filter(Boolean);
 
         } catch (error) {
             // Fallback: use test images if API fails (development only)
@@ -112,7 +143,7 @@ class HeroImages {
         }, interval);
     }
 
-    showRandomImage() {
+    showRandomImage({ staticMode = false } = {}) {
         // Don't show more than max simultaneous images
         if (this.activeImages.size >= this.config.maxSimultaneous) {
             return;
@@ -129,7 +160,9 @@ class HeroImages {
         // Create image element
         const img = document.createElement('img');
         img.src = randomImage.url;
-        img.alt = randomImage.title;
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+        img.decoding = 'async';
         img.className = 'hero-popup-image';
 
         // Random size in viewport units (more reliable for positioning)
@@ -152,7 +185,6 @@ class HeroImages {
         // Calculate max top to ensure images don't get cut off at bottom
         // Apply safe limit for both mobile and desktop
         const maxTopPercent = Math.max(padding, 100 - maxHeightVh - padding);
-        const maxTop = maxTopPercent;
 
         // Define exclusion zone (small center area where title is)
         // On mobile, eliminate vertical exclusion to allow full distribution
@@ -177,7 +209,7 @@ class HeroImages {
         // Try to find position outside exclusion zone
         do {
             left = this.randomBetween(padding, maxLeft);
-            top = this.randomBetween(padding, maxTop);
+            top = this.randomBetween(padding, maxTopPercent);
             attempts++;
 
             // Check if position is outside exclusion zone (center)
@@ -186,8 +218,6 @@ class HeroImages {
                 left > excludeRight ||
                 top < excludeTop ||
                 top > excludeBottom;
-
-            const inExclusionZone = !isOutsideExclusionZone;
 
             if (isOutsideExclusionZone || attempts >= maxAttempts) {
                 break;
@@ -206,20 +236,25 @@ class HeroImages {
         this.container.appendChild(img);
         this.activeImages.add(img);
 
-        // Trigger animation (CSS will handle the pop-up effect)
-        requestAnimationFrame(() => {
+        if (staticMode) {
+            // Render a single decorative image without timed animations/removals.
             img.classList.add('visible');
-        });
+        } else {
+            // Trigger animation (CSS will handle the pop-up effect)
+            requestAnimationFrame(() => {
+                img.classList.add('visible');
+            });
 
-        // Schedule removal
-        const duration = this.randomBetween(
-            this.config.minDuration,
-            this.config.maxDuration
-        );
+            // Schedule removal
+            const duration = this.randomBetween(
+                this.config.minDuration,
+                this.config.maxDuration
+            );
 
-        setTimeout(() => {
-            this.hideImage(img);
-        }, duration);
+            setTimeout(() => {
+                this.hideImage(img);
+            }, duration);
+        }
     }
 
     hideImage(img) {

@@ -9,7 +9,7 @@
     <title>Meme Things First — Design between politics, Education and Memetics</title>
     <meta name="title" content="Meme Things First — Design between politics, education and memetics">
     <meta name="keywords"
-        content="design, graphic design, memes, design education, manifestos, critical design, design activism, visual rhetoric, design pedagogy">
+        content="design, graphic design, memes, design education, manifestos, critical design, design activism, design critique">
     <meta name="author" content="Rebecca Bertero, Serena De Mola, Pasquale de Sario">
     <meta name="description" content="An investigation into the role of memes in contemporary graphic design, between political criticism, education crisis and professional disenchantment. Seminar and workshop at Iuav Venice, 2024.">
     <meta name="language" content="English, Italian">
@@ -17,11 +17,33 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://memethingsfirst.xyz/">
+    <meta property="og:url" content="https://meme-things-first.github.io/MTF/">
     <meta property="og:title" content="Meme Things First — Design between politics, education and memetics">
     <meta property="og:description" content="An investigation into the role of memes in contemporary graphic design. Seminar and workshop at Iuav Venice, November 2024.">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="it_IT">
+
+    <link rel="canonical" href="https://meme-things-first.github.io/MTF/">
+
+    <meta property="og:image" content="https://meme-things-first.github.io/MTF/Images/meme_things_first-4.jpeg">
+    <meta property="og:image:alt" content="Meme Things First seminar photo">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Meme Things First — Design between politics, education and memetics">
+    <meta name="twitter:description"
+        content="An investigation into the role of memes in contemporary graphic design, between political criticism, the crisis in education and professional disenchantment.">
+    <meta name="twitter:image" content="https://meme-things-first.github.io/MTF/Images/meme_things_first-4.jpeg">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Meme Things First",
+          "url": "https://meme-things-first.github.io/MTF/",
+          "description": "An investigation into the role of memes in contemporary graphic design, between political criticism, the crisis in education and professional disenchantment.",
+          "inLanguage": ["en", "it"]
+        }
+    </script>
 
     <!-- Font Preloading -->
     <link rel="preload" href="Fonts/ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2" as="font" type="font/woff2"
@@ -45,8 +67,8 @@
 <body>
     <!-- Hamburger Menu -->
     <div class="hamburger-menu">
-        <button class="menu-toggle" aria-label="Toggle Menu">🍔</button>
-        <nav class="menu-overlay">
+        <button class="menu-toggle" aria-label="Toggle Menu" aria-controls="menuOverlay" aria-expanded="false" type="button">🍔</button>
+        <nav id="menuOverlay" class="menu-overlay" aria-label="Primary navigation">
             <ul>
                 <li><a href="#introduction" class="menu-link">Intro</a></li>
                 <li><a href="#bibliography" class="menu-link">Bibliography</a></li>
@@ -1067,7 +1089,7 @@
                                     2025)</span></p>
                         </div>
 
-                        <button id="scroll_top" aria-label="Scroll to top" onclick="topFunction()">🦅</button>
+                        <button id="scroll_top" aria-label="Scroll to top" type="button">🦅</button>
 
                         <div class="info-item support-item">
                             <p><span class="info-header">With the support of</span><br><span class="lang-it">Attività
@@ -1104,14 +1126,16 @@
                                     BY-NC-SA 4.0.</a></span></p>
                     </div>
                     <div class="footer-col">
-                        <p>This website doesn’t use third party cookies 🍪<br><span class="lang-it">Questo sito non
-                                utilizza cookie di terze parti 🍪</span></p>
+                        <p>The book is also published on <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer">Zenodo</a> with DOI:
+                            <a href="https://doi.org/10.5281/zenodo.19161822" target="_blank" rel="noopener noreferrer">https://doi.org/10.5281/zenodo.19161822</a>.<br><span class="lang-it">Pubblicata su <a
+                                    href="https://zenodo.org/" target="_blank" rel="noopener noreferrer">Zenodo</a> con DOI:
+                                <a href="https://doi.org/10.5281/zenodo.19161822" target="_blank" rel="noopener noreferrer">https://doi.org/10.5281/zenodo.19161822</a>.</span></p>
                     </div>
                 </div>
 
                 <!-- Final Logo -->
                 <div class="end-logo">
-                    <img src="Images/mtf-logo.png" alt="MTF Logo" loading="lazy" decoding="async">
+                    <img src="Images/mtf-logo.svg" alt="MTF Logo" loading="lazy" decoding="async">
                 </div>
 
             </main>

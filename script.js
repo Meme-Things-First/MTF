@@ -3,16 +3,10 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 
-window.scrollTo(0, 0);
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Second ensuring attempt after DOM is ready
     window.scrollTo(0, 0);
-
-    // Some browsers need a tiny delay to override scroll position
-    setTimeout(() => {
-        window.scrollTo(0, 0);
-    }, 0);
+    // Some browsers need an extra frame to override scroll restoration
+    requestAnimationFrame(() => window.scrollTo(0, 0));
 
     /* -----------------------------------------------------
        FOOTNOTE SYSTEM
@@ -123,8 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const numberEl = popup.querySelector('.footnote-popup-number');
     const textEl = popup.querySelector('.footnote-popup-text');
 
+    // Accessibility defaults for the footnote popup
+    popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-modal', 'false');
+    popup.setAttribute('aria-hidden', 'true');
+    popup.setAttribute('tabindex', '-1'); // Allow programmatic focus if needed
+
+    let lastFootnoteFocusEl = null;
+
     // Function to open popup
     function openFootnote(number, lang, linkElement) {
+        lastFootnoteFocusEl = document.activeElement;
+
         // Use the passed language, or fallback to English if not provided
         const safeLang = lang || 'en';
 
@@ -164,11 +168,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         popup.classList.add('active');
+        popup.setAttribute('aria-hidden', 'false');
+        popup.setAttribute('aria-label', `Footnote ${number}`);
+
+        if (linkElement) {
+            linkElement.setAttribute('aria-expanded', 'true');
+        }
+
+        // Move focus to the close button (keyboard users need a clear target).
+        requestAnimationFrame(() => closeBtn && closeBtn.focus());
     }
 
     // Function to close popup
     function closeFootnote() {
         popup.classList.remove('active');
+        popup.setAttribute('aria-hidden', 'true');
+
+        if (currentOpenFootnote) {
+            currentOpenFootnote.setAttribute('aria-expanded', 'false');
+        }
+
+        if (lastFootnoteFocusEl && typeof lastFootnoteFocusEl.focus === 'function') {
+            lastFootnoteFocusEl.focus();
+        }
+        lastFootnoteFocusEl = null;
     }
 
     // Track which footnote is currently open
@@ -176,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add click handlers to all footnote links
     document.querySelectorAll('.footnote').forEach(link => {
+        link.setAttribute('aria-expanded', 'false');
         link.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation(); // Prevent document click from immediately closing
@@ -214,7 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Close on close button click (still useful for accessibility)
-    closeBtn.addEventListener('click', closeFootnote);
+    closeBtn.addEventListener('click', () => {
+        closeFootnote();
+        currentOpenFootnote = null;
+    });
 
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
@@ -271,12 +298,16 @@ document.addEventListener('DOMContentLoaded', () => {
         checkVisibility();
     }
 
-    window.topFunction = function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (mybutton) {
+        mybutton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: prefersReducedMotion ? 'auto' : 'smooth'
+            });
         });
-    };
+    }
 
     /* -----------------------------------------------------
        HAMBURGER MENU
@@ -285,15 +316,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuLinks = document.querySelectorAll(".menu-link");
 
     if (menuToggle && menuContainer) {
+        let lastMenuFocusEl = null;
+
+        const setMenuOpen = (open) => {
+            if (!menuToggle || !menuContainer) return;
+
+            menuContainer.classList.toggle("open", open);
+            menuToggle.setAttribute("aria-expanded", String(open));
+
+            if (open) {
+                lastMenuFocusEl = document.activeElement;
+                // Focus the first link for keyboard users.
+                (menuLinks[0] || menuToggle).focus();
+                return;
+            }
+
+            // If a footnote dialog is open, let the footnote handler restore focus.
+            if (popup.classList.contains('active')) {
+                lastMenuFocusEl = null;
+                return;
+            }
+
+            if (lastMenuFocusEl && typeof lastMenuFocusEl.focus === 'function') {
+                lastMenuFocusEl.focus();
+            }
+            lastMenuFocusEl = null;
+        };
+
         menuToggle.addEventListener("click", () => {
-            menuContainer.classList.toggle("open");
+            const isOpen = menuContainer.classList.contains("open");
+            setMenuOpen(!isOpen);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (!menuContainer.classList.contains("open")) return;
+            setMenuOpen(false);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!menuContainer.classList.contains("open")) return;
+            const clickInside = menuContainer.contains(e.target) || menuToggle.contains(e.target);
+            if (!clickInside) setMenuOpen(false);
+        });
+
+        menuLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                setMenuOpen(false);
+            });
         });
     }
-
-    menuLinks.forEach((link) => {
-        link.addEventListener("click", () => {
-            menuContainer.classList.remove("open");
-        });
-    });
 });
 
