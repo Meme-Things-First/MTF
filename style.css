@@ -1316,6 +1316,7 @@ button {
         -moz-hyphens: none;
         -ms-hyphens: none;
         hyphens: none;
+        overflow-wrap: break-word;
     }
 
     .article-excerpt {
