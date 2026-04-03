@@ -1013,6 +1013,10 @@ article a:hover {
 /* ===================================
    UTILITY CLASSES
    =================================== */
+.mobile-only {
+    display: none;
+}
+
 img {
     display: block;
     width: 100%;
@@ -1343,7 +1347,7 @@ button {
 
     /* "Get the PDF!" title - 50% of Main Title (21vw / 2 = 10.5vw) */
     .intro-header h2.centered-title {
-        font-size: 10.5vw !important;
+        font-size: 12.5vw !important;
         line-height: 1.1 !important;
     }
 
