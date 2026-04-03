@@ -1228,6 +1228,12 @@ button {
         display: none !important;
     }
 
+    /* Show mobile-only line breaks */
+    .mobile-only {
+        display: block;
+    }
+
+
     /* Hamburger Menu - Hide on Mobile */
     .hamburger-menu {
         display: none !important;
