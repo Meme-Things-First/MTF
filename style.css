@@ -1328,6 +1328,7 @@ button {
         -ms-hyphens: none;
         hyphens: none;
         overflow-wrap: break-word;
+        word-break: break-word;
     }
 
     .article-excerpt {
