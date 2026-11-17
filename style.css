@@ -51,6 +51,7 @@
     /* Layout */
     --width-text: 55vw;
     --pad-body: calc(var(--base-grid) * 2);
+    --pad-mobile: 8vw; /* original essay mobile edge inset — shared site-wide */
     --pad: calc(var(--base-grid) * 1.5);
     --pad-sm: calc(var(--base-grid) * 1);
     --pad-xs: calc(var(--base-grid) * 0.5);
@@ -1223,20 +1224,23 @@ button {
         --lineheight: 1.35;
     }
 
-    /* Scroll to Top - Hide on Mobile */
-    #scroll_top {
-        display: none !important;
-    }
-
     /* Show mobile-only line breaks */
     .mobile-only {
         display: block;
     }
 
-
-    /* Hamburger Menu - Hide on Mobile */
+    /* Burger + eagle — same --pad-mobile as gallery / slop */
     .hamburger-menu {
-        display: none !important;
+        left: var(--pad-mobile);
+    }
+
+    .menu-toggle,
+    #scroll_top {
+        font-size: 2.5rem;
+    }
+
+    #scroll_top {
+        right: var(--pad-mobile);
     }
 
     /* Reduce blurred frame/halo on small viewports */
@@ -1247,8 +1251,8 @@ button {
     /* Mobile Layout Overrides - unified margins */
     .layout-container,
     .main-header {
-        padding-left: 8vw !important;
-        padding-right: 8vw !important;
+        padding-left: var(--pad-mobile) !important;
+        padding-right: var(--pad-mobile) !important;
     }
 
     /* Reset internal padding for all sections to avoid double-padding from parent */
@@ -1480,6 +1484,16 @@ button {
         0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
 }
 
+#scroll_top:focus {
+    outline: none;
+}
+
+#scroll_top:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
 /* ===================================
    HAMBURGER MENU
    =================================== */
@@ -1498,11 +1512,6 @@ button {
 .hamburger-menu.visible {
     opacity: 1;
     visibility: visible;
-}
-
-/* Container for relative positioning of the dropdown */
-.hamburger-menu-container {
-    position: relative;
 }
 
 .menu-toggle {
@@ -1528,6 +1537,16 @@ button {
         -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
         0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
         0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.menu-toggle:focus {
+    outline: none;
+}
+
+.menu-toggle:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 .menu-overlay {
@@ -1556,11 +1575,6 @@ button {
     transform: translateY(10px);
 }
 
-.menu-toggle {
-    position: relative;
-    z-index: 10001;
-}
-
 .menu-overlay ul {
     list-style: none;
     text-align: left;
@@ -1577,7 +1591,7 @@ button {
 
 .menu-link {
     font-family: "Helveesti Spikes", sans-serif;
-    font-size: var(--caption-size);
+    font-size: var(--article-size);
     text-transform: uppercase;
     text-decoration: none;
     color: #363635;

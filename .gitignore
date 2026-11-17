@@ -1,4 +1,5 @@
 .DS_Store
+**/.DS_Store
 
 # macOS resource forks / metadata
 .AppleDouble
@@ -14,8 +15,13 @@ Icon?
 
 # Windows metadata / configuration
 desktop.ini
-/.Trash-*/ 
+/.Trash-*/
 /.TemporaryItems/
 /.VolumeIcon/
 $RECYCLE.BIN/
+
+# Optional local-only base64 pack for file:// gallery preview (not needed on HTTPS)
+gallery-assets.js
+*.original.jpeg
+*.original.jpg
 

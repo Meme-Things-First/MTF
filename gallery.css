@@ -1,0 +1,1088 @@
+/* ===================================
+   GALLERY — MEME THINGS FIRST
+   Light stage + inset “bordino” + continuous 3D carousel
+   =================================== */
+
+@font-face {
+    font-family: "Helveesti";
+    src: url("Fonts/ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2") format("woff2-variations");
+    font-weight: 100 900;
+    font-style: normal italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helveesti Spikes";
+    src: url("Fonts/ABC Helveesti/ABCHelveestiSpikesVariableEdu-Regular.woff2") format("woff2-variations");
+    font-weight: 100 900;
+    font-style: normal italic;
+    font-display: swap;
+}
+
+:root {
+    color-scheme: light;
+    --base-grid: clamp(0.8125rem, 0.65rem + 0.45vw, 1.125rem);
+    --base-size: var(--base-grid);
+    --article-size: clamp(1rem, 0.8rem + 0.5vw, 1.15625rem);
+    --medium-size: calc(var(--base-size) * 2);
+    --caption-size: calc(var(--base-size) * 0.8);
+    --lineheight: 1.5;
+    --lineheight-small: 1.3;
+    --wght: 400;
+    --wght-heavy: 900;
+    --color-text: #363635;
+    --color-muted: #878786;
+    --color-bg: #ffffff;
+    --pad-body: calc(var(--base-grid) * 2);
+    --pad-mobile: 8vw; /* original essay mobile edge inset — shared site-wide */
+    --pad: calc(var(--base-grid) * 1.5);
+    --pad-sm: calc(var(--base-grid) * 1);
+    --pad-xs: calc(var(--base-grid) * 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: var(--base-size);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--base-size);
+    line-height: var(--lineheight);
+    font-weight: var(--wght);
+    font-variant-numeric: oldstyle-nums;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    position: relative;
+}
+
+/* Same inset frame as home / bingo */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    box-shadow: inset 0 0 12px 14px rgba(198, 198, 197, 0.85);
+}
+
+::selection {
+    background: rgba(198, 198, 197, 1);
+    color: #363635;
+}
+
+.lang-en {
+    color: #363635;
+}
+
+.lang-it {
+    color: #878786;
+}
+
+.glow-hover {
+    transition: text-shadow 0.25s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.glow-hover:hover {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.gallery-layout {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.gallery-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    cursor: grab;
+    touch-action: none;
+}
+
+.gallery-canvas:active {
+    cursor: grabbing;
+}
+
+.gallery-canvas.is-stopped {
+    cursor: grab;
+}
+
+.gallery-canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* Poster counter — same pattern as Slop Machine ball counter */
+.gallery-topbar {
+    position: absolute;
+    top: calc(var(--pad) + 8px);
+    left: calc(var(--pad) + 12px);
+    /* Match Slop sidebar pad + MTF logo right edge */
+    right: 1.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+    z-index: 12;
+}
+
+.gallery-top-actions {
+    position: relative;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* Same content width as Slop Machine extract pills */
+    width: calc(min(42vw, 580px) - 3.6rem);
+    max-width: calc(580px - 3.6rem);
+    min-width: 0;
+}
+
+/* Explanation texts — sharp over blur, full viewport right column */
+.gallery-poster-blurb {
+    position: absolute;
+    top: 0;
+    right: 1.8rem;
+    bottom: 0;
+    z-index: 2;
+    width: calc(min(42vw, 580px) - 3.6rem);
+    max-width: calc(580px - 3.6rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    /* Two line-heights between contribution names */
+    gap: calc(var(--article-size) * var(--lineheight) * 2);
+    margin: 0;
+    padding: 1.8rem 0;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.35rem);
+    transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* legacy Edge */
+}
+
+.gallery-poster-blurb::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.gallery-poster-blurb.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.gallery-poster-blurb[hidden] {
+    display: flex;
+}
+
+.gallery-blurb-block {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* Book-style: name run-in — only the first line sits after the name */
+.gallery-blurb-block--contribution {
+    display: block;
+}
+
+.gallery-blurb-block--contribution .gallery-blurb-author {
+    float: left;
+    margin: 0 0.35em 0 0; /* piccolo rientro tra nome in apice e testo */
+    white-space: nowrap;
+}
+
+.gallery-blurb-block--contribution .gallery-blurb-body {
+    display: block;
+}
+
+.gallery-blurb-block--contribution .gallery-blurb-body::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* IT starts on its own full-width line under the EN run-in */
+.gallery-blurb-block--contribution .gallery-blurb-text.lang-it {
+    clear: both;
+}
+
+.gallery-blurb-author {
+    margin: 0;
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    font-weight: 900;
+    line-height: var(--lineheight);
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+}
+
+.gallery-blurb-author .sups {
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+}
+
+.gallery-blurb-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-blurb-block--description .gallery-blurb-body {
+    width: 100%;
+}
+
+.gallery-blurb-text {
+    margin: 0;
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--article-size);
+    font-weight: var(--wght);
+    line-height: var(--lineheight);
+    text-wrap: pretty;
+}
+
+/* Name → EN dark → IT light — only line-height like essay */
+.gallery-blurb-text.lang-en {
+    color: var(--color-text);
+}
+
+.gallery-blurb-text.lang-it {
+    color: var(--color-muted);
+}
+
+/* ===================================
+   SUPERSCRIPT & FOOTNOTES — copied from essay (style.css)
+   =================================== */
+.sups {
+    text-transform: none;
+    vertical-align: baseline;
+    font-size: 0.8em;
+    font-weight: 450;
+    line-height: 0;
+    position: relative;
+    top: -0.4em;
+}
+
+.footnote {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.footnote:hover {
+    text-shadow:
+        -0.05em -0.05em 0.2em rgba(198, 198, 197, 1),
+        -0.1em -0.1em 0.2em rgba(198, 198, 197, 1),
+        0.05em 0.05em 0.2em rgba(198, 198, 197, 1),
+        0.1em 0.1em 0.2em rgba(198, 198, 197, 1);
+}
+
+.lang-it .footnote.sups:hover {
+    color: rgba(198, 198, 197, 1);
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+        -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+        0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+        0.06em 0.06em 0.15em rgba(54, 54, 53, 1);
+}
+
+/* Footnote Popup — essay look; full text on one line, never clipped */
+.footnote-popup {
+    position: fixed;
+    width: max-content;
+    max-width: calc(100vw - 48px);
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    filter: none;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    margin: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+}
+
+.footnote-popup.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.footnote-popup-content {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-size: var(--caption-size);
+    line-height: var(--lineheight-small);
+    width: max-content;
+    max-width: calc(100vw - 48px);
+}
+
+.footnote-popup-number {
+    display: none;
+}
+
+.footnote-popup-close {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.footnote-popup-text {
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--caption-size);
+    line-height: var(--lineheight-small) !important;
+    padding: 0 !important;
+    margin: 0;
+    display: inline;
+    background: rgba(198, 198, 197, 1);
+    box-shadow: 0 0 5px 2px rgba(198, 198, 197, 1);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    text-wrap: pretty;
+    white-space: nowrap;
+}
+
+.footnote-popup.lang-it {
+    background: transparent;
+}
+
+.footnote-popup.lang-it .footnote-popup-text {
+    background: rgba(54, 54, 53, 1);
+    color: rgba(198, 198, 197, 1);
+    box-shadow: 0 0 5px 2px rgba(54, 54, 53, 1);
+}
+
+.footnote-popup-text a,
+.footnote-popup-text a:visited,
+.footnote-popup-text a:active {
+    color: inherit !important;
+}
+
+.footnote-popup-text a:hover {
+    text-decoration: none;
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.footnote-popup.lang-it .footnote-popup-text a:hover {
+    color: rgba(198, 198, 197, 1) !important;
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(54, 54, 53, 1),
+        -0.06em -0.06em 0.15em rgba(54, 54, 53, 1),
+        0.03em 0.03em 0.15em rgba(54, 54, 53, 1),
+        0.06em 0.06em 0.15em rgba(54, 54, 53, 1);
+}
+
+@media (max-width: 768px) {
+    .footnote-popup {
+        max-width: 80vw !important;
+        width: auto;
+        transform: scale(0.9);
+    }
+
+    .footnote-popup.active {
+        transform: scale(1) !important;
+    }
+
+    .footnote-popup-content,
+    .footnote-popup-text {
+        font-size: 4vw !important;
+        line-height: 1.3 !important;
+        white-space: normal;
+    }
+}
+
+/* Focus mode — blur everything; sharp: poster + meta + side texts */
+.gallery-focus {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem calc(min(42vw, 580px) + 1.2rem) 3rem 2rem;
+    box-sizing: border-box;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.gallery-focus.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.gallery-focus[hidden] {
+    display: flex;
+}
+
+/* WebGL canvas ignores backdrop-filter — blur the stage itself while focused */
+.gallery-layout.is-focused .gallery-canvas {
+    filter: blur(18px);
+    transform: scale(1.04);
+    pointer-events: none;
+}
+
+.gallery-focus-backdrop {
+    position: absolute;
+    inset: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    /* Strong white scrim so carousel posters never read sharp underneath */
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    cursor: pointer;
+}
+
+.gallery-focus-stage {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Clear of poster drop-shadow so the title stays fully visible */
+    gap: 2.4rem;
+    max-width: min(46vw, 34rem);
+    width: 100%;
+    pointer-events: none;
+    transform: scale(0.94);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+.gallery-focus.is-visible .gallery-focus-stage {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.gallery-focus-poster {
+    display: block;
+    max-width: 100%;
+    max-height: min(68vh, 46rem);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 15px rgba(54, 54, 53, 0.25)) drop-shadow(0 4px 40px rgba(54, 54, 53, 0.35));
+}
+
+/* Title under poster — book style: marker highlight + exact supers, no chip/authors */
+.gallery-focus-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.gallery-focus-meta .poster-title {
+    margin: 0;
+    text-indent: 0;
+    text-align: center;
+    text-wrap: pretty;
+    font-family: "Helveesti Spikes", sans-serif;
+    /* Book: title 18pt over body 10.5pt */
+    font-size: calc(var(--article-size) * (18 / 10.5));
+    font-weight: 900;
+    /* Book highlight stroke 20pt / title 18pt */
+    line-height: calc(20 / 18);
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    color: var(--color-text);
+}
+
+.gallery-focus-meta .poster-authors {
+    display: none;
+}
+
+/*
+ * Marker highlight like the book (thick gray bar through glyphs)
+ * + feather blur like essay notes, scaled in em to title size
+ * (notes: ~5px blur / ~2px spread on caption ≈ 0.36em / 0.14em)
+ */
+.gallery-title-hl {
+    display: inline;
+    background: rgba(198, 198, 197, 1);
+    box-shadow: 0 0 0.36em 0.14em rgba(198, 198, 197, 1);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    text-wrap: pretty;
+    padding: 0 0.02em;
+}
+
+/* Book supers: 10.494pt on 18pt ≈ 0.583em, raised ≈ 6pt (same Spikes weight) */
+.gallery-focus-meta .poster-title .sups {
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-transform: uppercase;
+    font-size: 0.583em;
+    line-height: 0;
+    position: relative;
+    top: -0.57em;
+    vertical-align: baseline;
+}
+
+/* While focused, blur chrome (burger, counter, add, reset) like the carousel */
+.gallery-layout.is-focused .gallery-topbar,
+.gallery-layout.is-focused .gallery-reset-btn,
+.hamburger-menu.is-under-focus {
+    z-index: 5 !important;
+    filter: blur(18px);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Red pill — same as Slop Machine .btn-extract-red */
+.gallery-add-btn {
+    box-sizing: border-box;
+    width: 100%;
+    height: 3.35rem;
+    padding: 0 1.4rem;
+    border: none;
+    border-radius: 999px;
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: #c6c6c5;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f42901;
+    box-shadow:
+        0 8px 22px rgba(244, 41, 1, 0.32),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.35),
+        inset -3px -4px 8px rgba(120, 20, 0, 0.28);
+    transition: box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gallery-add-btn:hover {
+    background: #e5e5e3;
+    color: #f42901;
+    box-shadow:
+        0 14px 28px rgba(54, 54, 53, 0.12),
+        0 0 16px rgba(180, 180, 180, 0.35);
+}
+
+.gallery-add-btn:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+.gallery-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Upload panel — same pill language as Slop Machine extract actions */
+.gallery-upload {
+    --upload-pill-height: 3.35rem;
+    --upload-pill-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.12),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.1);
+    margin-top: 0.65rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    width: 100%;
+}
+
+.gallery-upload[hidden] {
+    display: none;
+}
+
+.gallery-upload-pill {
+    width: 100%;
+    box-sizing: border-box;
+    height: var(--upload-pill-height);
+    min-height: var(--upload-pill-height);
+    padding: 0 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: var(--upload-pill-shadow);
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gallery-add-btn:focus-visible,
+.gallery-upload-pill:focus-visible,
+.gallery-upload-secondary:focus-visible,
+.gallery-reset-btn:focus-visible,
+.menu-toggle:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 3px;
+}
+
+.gallery-upload-pill:hover,
+.gallery-upload-secondary:hover {
+    background: #e5e5e3;
+    box-shadow:
+        0 14px 28px rgba(54, 54, 53, 0.12),
+        0 0 16px rgba(180, 180, 180, 0.35);
+}
+
+.gallery-upload-input.gallery-upload-pill {
+    cursor: text;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.gallery-upload-input.gallery-upload-pill::placeholder {
+    color: #878786;
+    opacity: 1;
+}
+
+.gallery-upload-input.gallery-upload-pill:focus {
+    background: #ffffff;
+    box-shadow:
+        0 12px 28px rgba(54, 54, 53, 0.1),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+}
+
+.gallery-upload-pill-label {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #878786;
+}
+
+.gallery-upload-image.has-file .gallery-upload-pill-label {
+    color: var(--color-text);
+}
+
+.gallery-upload-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 5.2rem;
+    padding: 1rem 1.2rem;
+    border: none;
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow: var(--upload-pill-shadow);
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--article-size);
+    font-weight: var(--wght);
+    line-height: var(--lineheight);
+    color: var(--color-text);
+    resize: vertical;
+    outline: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+}
+
+.gallery-upload-textarea::placeholder {
+    color: #878786;
+    opacity: 1;
+}
+
+.gallery-upload-textarea:focus {
+    background: #ffffff;
+    box-shadow:
+        0 12px 28px rgba(54, 54, 53, 0.1),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+}
+
+.gallery-upload-contributions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.gallery-upload-contribution {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.gallery-upload-secondary {
+    color: #878786;
+}
+
+.gallery-upload-textfile {
+    position: relative;
+}
+
+.gallery-poster-counter {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0;
+}
+
+.emoji-counter {
+    font-size: 3rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-feature-settings: normal;
+    font-variant: normal;
+    transition: transform 0.2s ease, text-shadow 0.25s ease;
+}
+
+.gallery-poster-counter:hover .emoji-counter {
+    transform: scale(1.1);
+}
+
+.poster-count-number {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--medium-size);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+}
+
+/* Reset camera — bottom left */
+.gallery-reset-btn {
+    position: absolute;
+    left: 1.8rem;
+    bottom: 2.2rem;
+    z-index: 12;
+    font-size: 3rem;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gallery-reset-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Hamburger — identical fixed slot on gallery + slop machine */
+.hamburger-menu {
+    position: fixed;
+    top: 48%;
+    left: var(--pad-body);
+    transform: translateY(-50%);
+    z-index: 10000;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hamburger-menu.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: 3rem;
+    font-feature-settings: normal;
+    font-variant: normal;
+    line-height: 1;
+    transition: text-shadow 0.3s ease;
+}
+
+.menu-toggle:hover {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.menu-overlay {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: auto;
+    height: auto;
+    min-width: max-content;
+    background: transparent;
+    display: block;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 10000;
+    box-shadow: none;
+    border: none;
+    text-align: left;
+}
+
+.hamburger-menu.open .menu-overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(10px);
+}
+
+.menu-overlay ul {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: auto;
+}
+
+.menu-overlay li {
+    margin: var(--pad-xs) 0;
+    white-space: nowrap;
+}
+
+.menu-link {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #363635;
+    font-weight: 900;
+    line-height: calc(var(--lineheight) / 2);
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    display: block;
+    mix-blend-mode: difference;
+}
+
+.menu-link:hover,
+.menu-link[aria-current="page"] {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+@media (max-width: 850px) {
+    /* Stack: manifesto grande → titolo → testi a scorrimento */
+    .gallery-focus {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.4rem var(--pad-mobile) 2.2rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    .gallery-focus-stage {
+        max-width: min(calc(100vw - 2 * var(--pad-mobile)), 30rem);
+        width: 100%;
+        flex: 0 0 auto;
+        gap: 1.1rem;
+    }
+
+    .gallery-focus-poster {
+        max-height: min(58vh, 34rem);
+        width: 100%;
+    }
+
+    .gallery-focus-meta {
+        padding: 0.65rem 1.15rem 0.7rem;
+    }
+
+    .gallery-focus-meta .poster-title {
+        font-size: 4.5vw;
+    }
+
+    .gallery-blurb-text,
+    .gallery-blurb-author {
+        /* Same as essay mobile article text */
+        font-size: 4.5vw;
+    }
+
+    .gallery-poster-blurb {
+        position: relative;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        width: 100%;
+        max-width: min(calc(100vw - 2 * var(--pad-mobile)), 30rem);
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 1.35rem 0 0;
+        overflow: visible;
+        transform: none;
+    }
+
+    .gallery-poster-blurb.is-visible {
+        transform: none;
+    }
+
+    .gallery-topbar {
+        left: var(--pad-mobile);
+        right: var(--pad-mobile);
+    }
+
+    .gallery-top-actions {
+        width: min(calc(100vw - 2 * var(--pad-mobile) - 5rem), calc(min(42vw, 580px) - 3.6rem));
+    }
+
+    .gallery-add-btn,
+    .gallery-upload-pill {
+        height: 3.05rem;
+        min-height: 3.05rem;
+        padding: 0 1.1rem;
+    }
+
+    .gallery-upload {
+        --upload-pill-height: 3.05rem;
+    }
+
+    .hamburger-menu {
+        left: var(--pad-mobile);
+    }
+
+    .menu-toggle,
+    .emoji-counter,
+    .gallery-reset-btn {
+        font-size: 2.5rem;
+    }
+
+    .poster-count-number {
+        font-size: calc(var(--medium-size) * 0.85);
+    }
+
+    .gallery-reset-btn {
+        left: var(--pad-mobile);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glow-hover,
+    .menu-toggle,
+    .gallery-reset-btn,
+    .gallery-add-btn,
+    .gallery-upload-pill,
+    .gallery-focus,
+    .gallery-focus-poster,
+    .gallery-poster-blurb {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .glow-hover:hover,
+    .menu-toggle:hover,
+    .gallery-reset-btn:hover {
+        transform: none;
+        text-shadow: none;
+    }
+}

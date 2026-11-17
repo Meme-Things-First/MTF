@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gallery — Meme Things First</title>
+    <meta name="title" content="Gallery — Meme Things First">
+    <meta name="author" content="Rebecca Bertero, Serena De Mola, Pasquale de Sario">
+    <meta name="description"
+        content="3D gallery of A3 posters produced during the Meme Things First workshop at Iuav Venice.">
+    <meta name="theme-color" content="#363635">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meme-things-first.github.io/MTF/gallery.html">
+    <meta property="og:title" content="Gallery — Meme Things First">
+    <meta property="og:description"
+        content="3D gallery of A3 posters produced during the Meme Things First workshop at Iuav Venice.">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="it_IT">
+    <meta property="og:image" content="https://meme-things-first.github.io/MTF/Images/gallery/09-malossi.jpg">
+    <meta property="og:image:alt" content="Workshop poster from Meme Things First">
+
+    <link rel="canonical" href="https://meme-things-first.github.io/MTF/gallery.html">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gallery — Meme Things First">
+    <meta name="twitter:description"
+        content="3D gallery of A3 posters produced during the Meme Things First workshop at Iuav Venice.">
+    <meta name="twitter:image" content="https://meme-things-first.github.io/MTF/Images/gallery/09-malossi.jpg">
+
+    <link rel="preload" href="Fonts/ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2" as="font" type="font/woff2"
+        crossorigin>
+    <link rel="preload" href="Fonts/ABC Helveesti/ABCHelveestiSpikesVariableEdu-Regular.woff2" as="font"
+        type="font/woff2" crossorigin>
+
+    <link rel="icon" href="favicon-gallery.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon-gallery.svg">
+
+    <link rel="stylesheet" href="gallery.css">
+
+    <!-- 3D Libraries (local; defer preserves order, avoids parser blocking) -->
+    <script src="vendor/three.min.js" defer></script>
+    <script src="vendor/OrbitControls.js" defer></script>
+    <script src="site-menu.js" defer></script>
+    <script src="gallery.js" defer></script>
+</head>
+
+<body>
+    <div class="hamburger-menu visible">
+        <button class="menu-toggle" aria-label="Toggle Menu" aria-controls="menuOverlay" aria-expanded="false"
+            type="button">🍔</button>
+        <nav id="menuOverlay" class="menu-overlay" aria-label="Primary navigation">
+            <ul>
+                <li><a href="index.html" class="menu-link">📜 Essay</a></li>
+                <li><a href="gallery.html" class="menu-link" aria-current="page">🖼️ Gallery</a></li>
+                <li><a href="bingo.html" class="menu-link">🎰 Slop Machine</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="gallery-layout" aria-label="Workshop poster gallery">
+        <div id="gallery-canvas" class="gallery-canvas" role="img"
+            aria-label="Rotating 3D carousel of A3 workshop posters"></div>
+
+        <header class="gallery-topbar">
+            <div class="gallery-poster-counter glow-hover" id="gallery-poster-counter"
+                aria-label="Contatore manifesti">
+                <span class="emoji-counter" aria-hidden="true">🖼️</span>
+                <span id="stat-poster-count" class="poster-count-number" aria-live="polite">—</span>
+            </div>
+            <div class="gallery-top-actions">
+                <button id="btn-add-poster" class="gallery-add-btn" type="button"
+                    aria-label="Aggiungi manifesto da file">Aggiungi manifesto</button>
+
+                <div id="gallery-upload" class="gallery-upload" hidden>
+                    <label class="gallery-upload-pill gallery-upload-image">
+                        <input id="input-add-poster" class="gallery-file-input" type="file"
+                            accept="image/*">
+                        <span id="upload-image-name" class="gallery-upload-pill-label">Scegli immagine…</span>
+                    </label>
+                    <input id="upload-title" class="gallery-upload-pill gallery-upload-input" type="text"
+                        placeholder="Titolo manifesto" autocomplete="off">
+                    <input id="upload-authors" class="gallery-upload-pill gallery-upload-input" type="text"
+                        placeholder="Autori" autocomplete="off">
+                    <div id="upload-contributions" class="gallery-upload-contributions"></div>
+                    <button id="btn-add-contribution" class="gallery-upload-pill gallery-upload-secondary" type="button">
+                        + Testo
+                    </button>
+                    <label class="gallery-upload-pill gallery-upload-secondary gallery-upload-textfile">
+                        <input id="input-add-texts" class="gallery-file-input" type="file"
+                            accept=".txt,.md,text/plain" multiple>
+                        <span class="gallery-upload-pill-label">Carica .txt</span>
+                    </label>
+                    <button id="btn-upload-cancel" class="gallery-upload-pill gallery-upload-secondary" type="button">
+                        Annulla
+                    </button>
+                    <button id="btn-upload-confirm" class="gallery-add-btn" type="button">
+                        Aggiungi
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div id="gallery-focus" class="gallery-focus" hidden>
+            <button type="button" class="gallery-focus-backdrop" id="gallery-focus-backdrop"
+                aria-label="Chiudi manifesto" tabindex="-1"></button>
+            <div class="gallery-focus-stage">
+                <img id="gallery-focus-poster" class="gallery-focus-poster" alt="">
+                <div class="gallery-focus-meta" aria-live="polite">
+                    <p class="poster-title" id="poster-title">—</p>
+                    <p class="poster-authors" id="poster-authors" hidden></p>
+                </div>
+            </div>
+            <aside id="gallery-poster-blurb" class="gallery-poster-blurb" aria-live="polite" hidden></aside>
+        </div>
+
+        <button id="btn-reset-camera" class="gallery-reset-btn glow-hover" type="button"
+            aria-label="Centra vista" title="Centra vista">🎯</button>
+    </main>
+</body>
+
+</html>

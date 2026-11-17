@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Slop Machine — Meme Things First</title>
+    <meta name="title" content="Slop Machine — Meme Things First">
+    <meta name="author" content="Rebecca Bertero, Serena De Mola, Pasquale de Sario">
+    <meta name="description"
+        content="La bingo machine 3D delle lamentele: estrai, cataloga e condividi le frustrazioni tra design, accademia e lavoro precario. Workshop tool di Meme Things First.">
+    <meta name="theme-color" content="#363635">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meme-things-first.github.io/MTF/bingo.html">
+    <meta property="og:title" content="Slop Machine — Meme Things First">
+    <meta property="og:description"
+        content="La bingo machine 3D delle lamentele: estrai, cataloga e condividi le frustrazioni tra design, accademia e lavoro precario.">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="https://meme-things-first.github.io/MTF/Images/og-cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="798">
+    <meta property="og:image:alt" content="Meme Things First seminar photo">
+
+    <link rel="canonical" href="https://meme-things-first.github.io/MTF/bingo.html">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Slop Machine — Meme Things First">
+    <meta name="twitter:description"
+        content="La bingo machine 3D delle lamentele: estrai, cataloga e condividi le frustrazioni tra design, accademia e lavoro precario.">
+    <meta name="twitter:image" content="https://meme-things-first.github.io/MTF/Images/og-cover.jpg">
+
+    <!-- Font Preloading -->
+    <link rel="preload" href="Fonts/ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2" as="font" type="font/woff2"
+        crossorigin>
+    <link rel="preload" href="Fonts/ABC Helveesti/ABCHelveestiSpikesVariableEdu-Regular.woff2" as="font"
+        type="font/woff2" crossorigin>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon-bingo.svg">
+    <link rel="apple-touch-icon" href="favicon-bingo.svg">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="bingo.css">
+
+    <!-- 3D Libraries (local; defer preserves order, avoids parser blocking) -->
+    <script src="vendor/three.min.js" defer></script>
+    <script src="vendor/OrbitControls.js" defer></script>
+    <script src="site-menu.js" defer></script>
+    <script src="bingo.js" defer></script>
+</head>
+
+<body>
+    <div class="hamburger-menu visible">
+        <button class="menu-toggle" aria-label="Toggle Menu" aria-controls="menuOverlay" aria-expanded="false"
+            type="button">🍔</button>
+        <nav id="menuOverlay" class="menu-overlay" aria-label="Primary navigation">
+            <ul>
+                <li><a href="index.html" class="menu-link">📜 Essay</a></li>
+                <li><a href="gallery.html" class="menu-link">🖼️ Gallery</a></li>
+                <li><a href="bingo.html" class="menu-link" aria-current="page">🎰 Slop Machine</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- MAIN APPLICATION LAYOUT (FULL VIEWPORT WITH HOME INSET SHADOW) -->
+    <main class="app-layout">
+
+        <!-- LEFT SECTION: 3D YELLOW BINGO STAGE -->
+        <section class="stage-section" aria-label="Modello 3D Bingo Machine">
+            <!-- 3D Canvas WebGL Container -->
+            <div id="webgl-canvas-container"></div>
+
+            <header class="stage-topbar">
+                <div class="stage-ball-counter glow-hover" id="stage-ball-counter" aria-label="Contatore palline disponibili">
+                    <span class="emoji-counter" aria-hidden="true">🎱</span>
+                    <span id="stat-ball-count" class="ball-count-number" aria-live="polite">—</span>
+                </div>
+            </header>
+
+            <div class="stage-controls stage-controls-bl">
+                <button id="btn-reset-camera" class="emoji-toggle-btn glow-hover" type="button" aria-label="Centra vista 3D della gabbia" title="Centra vista">🎯</button>
+                <button id="btn-quick-spin" class="emoji-toggle-btn glow-hover" type="button" aria-label="Fai girare la gabbia senza estrarre" title="Gira la gabbia">🌀</button>
+            </div>
+
+        </section>
+
+        <!-- RIGHT SECTION: 3 CLEAN BUBBLE PANELS (FLOATING ON UNIFIED WHITE BACKGROUND, NO ARROWS) -->
+        <aside class="sidebar-section" aria-label="Pannello Gestione Lamentele">
+
+            <!-- EXTRACTION ACTIONS — RED / BLUE / COMBO PILLS -->
+            <section class="extract-actions" id="bubble-extract">
+                <button id="btn-extract-complaint" class="btn-extract-bubble btn-extract-red" type="button" aria-label="Estrai una lamentela">
+                    Estrai lamentela
+                </button>
+                <button id="btn-extract-template" class="btn-extract-bubble btn-extract-blue" type="button" aria-label="Estrai una base meme">
+                    Estrai base meme
+                </button>
+                <button id="btn-extract-combo" class="btn-extract-bubble btn-extract-combo" type="button" aria-label="Estrai combo lamentela e base meme per il gruppo attivo">
+                    Estrai combo
+                </button>
+            </section>
+
+            <!-- BUBBLE 2: INSERT NEW COMPLAINT -->
+            <section class="bubble-panel bubble-insert" id="bubble-insert">
+                <h2 class="bubble-title">
+                    Inserisci una nuova lamentela
+                </h2>
+
+                <form id="form-add-complaint" class="complaint-form">
+                    <!-- Text + postbox submit -->
+                    <div class="form-field-row form-field-text">
+                        <div class="textarea-wrapper">
+                            <textarea id="complaint-text-input" class="complaint-textarea" rows="3"
+                                placeholder="" aria-label="Scrivi la tua lamentela"></textarea>
+                        </div>
+                        <button type="button" id="btn-add-text" class="btn-post-field" aria-label="Invia lamentela testuale nella gabbia" title="Invia testo">📮</button>
+                    </div>
+
+                    <!-- Image + submit -->
+                    <div class="form-field-row form-field-media">
+                        <div class="media-upload-area">
+                            <div id="upload-dropzone" class="upload-dropzone" role="button" tabindex="0" aria-label="Carica o trascina un’immagine">
+                                <span class="upload-dropzone-emojis" aria-hidden="true">
+                                    <span class="upload-dropzone-emoji">🖼️</span>
+                                    <span class="upload-dropzone-emoji">🧿</span>
+                                    <span class="upload-dropzone-emoji">🧬</span>
+                                    <span class="upload-dropzone-emoji">🪞</span>
+                                    <span class="upload-dropzone-emoji">🛸</span>
+                                </span>
+                                <input type="file" id="file-input-complaint" class="file-input-hidden" accept="image/*" tabindex="-1">
+                            </div>
+
+                            <div id="image-preview-container" class="image-preview-container">
+                                <img id="preview-thumb-img" src="" alt="Anteprima immagine selezionata">
+                                <button type="button" id="btn-remove-preview" class="btn-remove-image" aria-label="Rimuovi immagine selezionata" title="Rimuovi immagine">×</button>
+                            </div>
+                        </div>
+                        <button type="button" id="btn-add-image" class="btn-post-field" aria-label="Invia lamentela immagine nella gabbia" title="Invia immagine">📮</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- EXTRACTED LISTS: same gap as extract pills -->
+            <div class="extracted-stacks">
+                <section class="bubble-panel bubble-extracted" id="bubble-extracted">
+                    <div class="extracted-header">
+                        <h2 class="bubble-title">
+                            Lamentele estratte
+                        </h2>
+                    </div>
+                    <div id="extracted-list-container" class="extracted-list" role="region" aria-live="polite" aria-label="Elenco lamentele estratte"></div>
+                </section>
+
+                <section class="bubble-panel bubble-extracted bubble-templates" id="bubble-templates">
+                    <div class="extracted-header">
+                        <h2 class="bubble-title">
+                            Template base meme estratti
+                        </h2>
+                    </div>
+                    <div id="extracted-templates-container" class="extracted-list extracted-templates-list" role="region" aria-live="polite" aria-label="Elenco template base meme estratti"></div>
+                </section>
+            </div>
+
+            <!-- WORKSHOP GROUPS — after extracted content -->
+            <section class="bubble-panel bubble-groups" id="bubble-groups" aria-label="Gruppi workshop">
+                <div class="groups-header">
+                    <h2 class="bubble-title">Gruppi</h2>
+                    <form id="form-add-group" class="group-add-form">
+                        <input id="group-name-input" class="group-name-field" type="text" maxlength="48"
+                            placeholder="" aria-label="Nome nuovo gruppo" autocomplete="off">
+                        <button type="submit" id="btn-add-group" class="btn-add-group" aria-label="Aggiungi gruppo">+</button>
+                    </form>
+                </div>
+                <div id="groups-list" class="groups-list" role="list" aria-label="Elenco gruppi workshop"></div>
+            </section>
+
+        </aside>
+
+    </main>
+
+    <!-- EXTRACTION POPUP CELEBRATION MODAL -->
+    <div id="extraction-modal" class="extraction-modal-backdrop" role="dialog" aria-modal="true" aria-label="Lamentela estratta">
+        <div class="extraction-modal-dialog" id="extraction-modal-dialog" tabindex="0">
+            <p id="modal-complaint-text" class="modal-complaint-text"></p>
+            <div id="modal-image-container" class="modal-image-container"></div>
+        </div>
+    </div>
+
+    <!-- IMAGE LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Anteprima immagine ingrandita">
+        <img id="lightbox-img" src="" alt="Immagine ingrandita">
+    </div>
+
+</body>
+
+</html>

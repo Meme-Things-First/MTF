@@ -1,0 +1,1519 @@
+/* ===================================
+   BINGO DELLE LAMENTELE — MEME THINGS FIRST
+   Typography, grigino viewport shadow & 3D floating bubbles
+   =================================== */
+
+/* FONT DECLARATIONS */
+@font-face {
+    font-family: "Helveesti";
+    src: url("Fonts/ABC Helveesti/ABCHelveestiPlusVariableEdu-Regular.woff2") format("woff2-variations");
+    font-weight: 100 900;
+    font-style: normal italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helveesti Spikes";
+    src: url("Fonts/ABC Helveesti/ABCHelveestiSpikesVariableEdu-Regular.woff2") format("woff2-variations");
+    font-weight: 100 900;
+    font-style: normal italic;
+    font-display: swap;
+}
+
+/* DESIGN TOKENS */
+:root {
+    color-scheme: light;
+    --base-grid: clamp(0.8125rem, 0.65rem + 0.45vw, 1.125rem);
+    --article-size: clamp(1rem, 0.8rem + 0.5vw, 1.15625rem);
+    --base-size: var(--base-grid);
+    --xlarge-size: calc(var(--base-size) * 5);
+    --heading-size: calc(var(--base-size) * 3);
+    --large-size: calc(var(--base-size) * 2);
+    --medium-size: calc(var(--base-size) * 2);
+    --caption-size: calc(var(--base-size) * 0.8);
+
+    --lineheight: 1.5;
+    --lineheight-small: 1.3;
+
+    --wght: 400;
+    --wght-heavy: 900;
+
+    --color-text: #363635;
+    --color-muted: #878786;
+    /* Pure white background like MTF home */
+    --color-bg: #ffffff;
+    --color-border: rgba(198, 198, 197, 1);
+    --color-shadow-gray: rgba(198, 198, 197, 0.85);
+
+    /* Bingo Machine Yellow - calibrated to the exact bright warm yellow of the 3D cage */
+    --color-yellow: #f4ca27;
+    --color-yellow-bright: #fed93d;
+    --color-yellow-deep: #e2b719;
+    --color-yellow-light: #fff8d6;
+
+    /* Extraction pills — sampled from MTF Instagram story backgrounds */
+    --color-pill-red: #f42901;
+    --color-pill-red-deep: #c21f00;
+    --color-pill-blue: #0000e8;
+    --color-pill-blue-deep: #0000b4;
+
+    /* Shared hover: light gray ground + contrasting ink */
+    --color-hover-bg: #e5e5e3;
+    --shadow-hover:
+        0 14px 28px rgba(54, 54, 53, 0.12),
+        0 0 16px rgba(180, 180, 180, 0.35);
+
+    --pad-body: calc(var(--base-grid) * 2);
+    --pad-mobile: 8vw; /* original essay mobile edge inset — shared site-wide */
+    --pad: calc(var(--base-grid) * 1.5);
+    --pad-sm: calc(var(--base-grid) * 1);
+    --pad-xs: calc(var(--base-grid) * 0.5);
+
+    /* Shared metrics for extract pills + chips (near home --article-size) */
+    --extract-pill-height: 3.35rem;
+    --extract-pill-pad-x: 1.4rem;
+    --extract-pill-font: var(--article-size);
+    --extract-pill-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.12),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.1);
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: var(--base-size);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--base-size);
+    line-height: var(--lineheight);
+    font-weight: var(--wght);
+    font-variant-numeric: oldstyle-nums;
+    font-feature-settings: "smcp" on;
+    background-color: #ffffff;
+    color: var(--color-text);
+    position: relative;
+    user-select: none;
+}
+
+/* GLOBAL INSET BLURRED FRAME DIRECTLY ON VIEWPORT (EXACTLY LIKE HOME) */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    box-shadow: inset 0 0 12px 14px rgba(198, 198, 197, 0.85);
+}
+
+/* Custom Selection */
+::selection {
+    background: rgba(198, 198, 197, 1);
+    color: #363635;
+}
+
+::-moz-selection {
+    background: rgba(198, 198, 197, 1);
+    color: #363635;
+}
+
+/* HOVER TYPOGRAPHY GLOW (FROM MAIN SITE) */
+.glow-hover {
+    transition: text-shadow 0.25s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.glow-hover:hover {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+/* BUTTONS RESET */
+button {
+    background: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 3px;
+}
+
+/* ===================================
+   MAIN LAYOUT (EDGE-TO-EDGE VIEWPORT ON UNIFIED WHITE BG)
+   =================================== */
+.app-layout {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    position: relative;
+    background-color: #ffffff;
+    border: none;
+}
+
+/* ===================================
+   LEFT: 3D STAGE SECTION (SEAMLESS WHITE, NO BORDERS OR LINES)
+   =================================== */
+.stage-section {
+    flex: 1 1 58%;
+    height: 100%;
+    position: relative;
+    background: #ffffff;
+    border: none !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#webgl-canvas-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    cursor: grab;
+}
+
+#webgl-canvas-container:active {
+    cursor: grabbing;
+}
+
+.stage-topbar {
+    position: absolute;
+    top: calc(var(--pad) + 8px);
+    left: calc(var(--pad) + 12px);
+    right: calc(var(--pad) + 12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.stage-ball-counter {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0;
+}
+
+.emoji-counter {
+    font-size: 3rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-feature-settings: normal;
+    font-variant: normal;
+    transition: transform 0.2s ease, text-shadow 0.25s ease;
+}
+
+.emoji-counter:hover {
+    transform: scale(1.1);
+}
+
+.emoji-toggle-btn,
+.upload-dropzone-emoji {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-feature-settings: normal;
+    font-variant: normal;
+}
+
+.ball-count-number {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--medium-size);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+}
+
+.stage-controls {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.stage-controls-bl {
+    position: absolute;
+    left: 1.8rem;
+    bottom: 2.2rem;
+    z-index: 12;
+}
+
+.emoji-toggle-btn {
+    font-size: 3rem;
+    line-height: 1;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: text-shadow 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-toggle-btn:hover {
+    transform: scale(1.1);
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+/* Hamburger — identical fixed slot on gallery + slop machine */
+.hamburger-menu {
+    position: fixed;
+    top: 48%;
+    left: var(--pad-body);
+    transform: translateY(-50%);
+    z-index: 10000;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hamburger-menu.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: 3rem;
+    font-feature-settings: normal;
+    font-variant: normal;
+    line-height: 1;
+    transition: text-shadow 0.3s ease;
+}
+
+.menu-toggle:hover {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+.menu-toggle:focus {
+    outline: none;
+}
+
+.menu-toggle:focus-visible,
+.emoji-toggle-btn:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.menu-overlay {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: auto;
+    height: auto;
+    min-width: max-content;
+    background: transparent;
+    display: block;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 10000;
+    box-shadow: none;
+    border: none;
+    text-align: left;
+}
+
+.hamburger-menu.open .menu-overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(10px);
+}
+
+.menu-overlay ul {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: auto;
+}
+
+.menu-overlay li {
+    margin: var(--pad-xs) 0;
+    white-space: nowrap;
+}
+
+.menu-link {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #363635;
+    font-weight: 900;
+    line-height: calc(var(--lineheight) / 2);
+    letter-spacing: 0.025em;
+    transition: all 0.2s ease;
+    display: block;
+    mix-blend-mode: difference;
+}
+
+.menu-link:hover,
+.menu-link[aria-current="page"] {
+    text-shadow:
+        -0.03em -0.03em 0.15em rgba(198, 198, 197, 1),
+        -0.06em -0.06em 0.15em rgba(198, 198, 197, 1),
+        0.03em 0.03em 0.15em rgba(198, 198, 197, 1),
+        0.06em 0.06em 0.15em rgba(198, 198, 197, 1);
+}
+
+/* ===================================
+   RIGHT: SIDEBAR DIRECTLY ON UNIFIED WHITE BACKGROUND
+   (Seamless white, NO borders, NO separating lines, NO arrows)
+   =================================== */
+.sidebar-section {
+    flex: 1 1 42%;
+    max-width: 580px;
+    min-width: 380px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: none !important;
+    box-shadow: none !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2.2rem 1.8rem;
+    gap: 1.4rem;
+    z-index: 20;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(198, 198, 197, 0.6) transparent;
+}
+
+/* Custom Scrollbar */
+.sidebar-section::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-section::-webkit-scrollbar-thumb {
+    background: rgba(198, 198, 197, 0.6);
+    border-radius: 3px;
+}
+
+/* ===================================
+   3D BUBBLE PANELS (CLEAN, NO ARROW TAILS)
+   =================================== */
+.bubble-panel {
+    position: relative;
+    border-radius: 36px;
+    padding: 1.5rem 1.6rem;
+    background-color: #ffffff;
+    /* 3D clay / inflated pillow depth */
+    box-shadow:
+        0 14px 34px rgba(54, 54, 53, 0.08),
+        0 3px 8px rgba(54, 54, 53, 0.04),
+        inset 4px 4px 9px rgba(255, 255, 255, 0.95),
+        inset -4px -5px 12px rgba(54, 54, 53, 0.11);
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+}
+
+.bubble-panel:hover {
+    background-color: var(--color-hover-bg);
+    transform: translateY(-3px) scale(1.008);
+    box-shadow: var(--shadow-hover);
+}
+
+.bubble-panel:hover .bubble-title {
+    color: var(--color-text);
+}
+
+.bubble-title {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    font-weight: 900;
+    /* Maiuscolo e minuscolo */
+    text-transform: none;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    gap: 0.5rem;
+    color: var(--color-text);
+}
+
+.bubble-extracted:not(:has(.extracted-list:not(:empty))) {
+    position: relative;
+}
+
+.bubble-extracted:not(:has(.extracted-list:not(:empty))) .extracted-header {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.bubble-extracted .extracted-header {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    height: 100%;
+    margin: 0;
+}
+
+.bubble-extracted .bubble-title {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-size: var(--extract-pill-font);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.bubble-extracted .extracted-list:empty {
+    display: none;
+}
+
+/* When chips are present, panel grows around the list */
+.bubble-extracted:has(.extracted-list:not(:empty)) {
+    height: auto;
+    max-height: none;
+    min-height: var(--extract-pill-height);
+    padding: 0.85rem 1.15rem;
+    border-radius: 28px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: visible;
+    gap: 0;
+}
+
+.bubble-extracted:has(.extracted-list:not(:empty)) .extracted-header {
+    flex: 0 0 auto;
+    height: auto;
+}
+
+/* Same title → content gap as «Inserisci una nuova lamentela» (0.85rem) */
+.bubble-extracted:has(.extracted-list:not(:empty)) .bubble-title {
+    height: auto;
+    margin: 0 0 0.85rem;
+    padding: 0;
+}
+
+/* Template column: no pill chrome — title spacing only, images flush below */
+.bubble-templates:has(.extracted-list:not(:empty)) {
+    padding: 0.85rem 0 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+.bubble-templates:has(.extracted-list:not(:empty)):hover {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+.bubble-templates:has(.extracted-list:not(:empty)) .bubble-title {
+    margin: 0 0 0.85rem;
+    padding: 0;
+}
+
+/* -----------------------------------
+   EXTRACTION ACTIONS (no bubble box)
+   ----------------------------------- */
+.extract-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.extracted-stacks {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.btn-extract-bubble,
+.bubble-extracted:not(:has(.extracted-list:not(:empty))) {
+    width: 100%;
+    box-sizing: border-box;
+    height: var(--extract-pill-height);
+    min-height: var(--extract-pill-height);
+    max-height: var(--extract-pill-height);
+    padding: 0 var(--extract-pill-pad-x);
+    border-radius: 999px;
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--extract-pill-font);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    touch-action: manipulation;
+    transition: box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
+}
+
+.btn-extract-bubble {
+    cursor: pointer;
+    color: #c6c6c5;
+}
+
+.bubble-extracted:not(:has(.extracted-list:not(:empty))) {
+    background: #ffffff;
+    box-shadow: var(--extract-pill-shadow);
+    transform: none;
+}
+
+.bubble-extracted:not(:has(.extracted-list:not(:empty))):hover {
+    background: var(--color-hover-bg);
+    box-shadow: var(--shadow-hover);
+}
+
+.bubble-extracted:not(:has(.extracted-list:not(:empty))) .bubble-title {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-extract-red {
+    background: var(--color-pill-red);
+    box-shadow:
+        0 8px 22px rgba(244, 41, 1, 0.32),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.35),
+        inset -3px -4px 8px rgba(120, 20, 0, 0.28);
+}
+
+.btn-extract-blue {
+    background: var(--color-pill-blue);
+    box-shadow:
+        0 8px 22px rgba(0, 0, 232, 0.32),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.35),
+        inset -3px -4px 8px rgba(0, 0, 120, 0.28);
+}
+
+.btn-extract-combo {
+    background: var(--color-text);
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.28),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.22),
+        inset -3px -4px 8px rgba(0, 0, 0, 0.28);
+}
+
+.btn-extract-combo:hover {
+    background: var(--color-hover-bg);
+    color: var(--color-text);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-extract-combo:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    animation: none;
+}
+
+.btn-extract-bubble:focus {
+    outline: none;
+}
+
+.btn-extract-bubble:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 3px;
+}
+
+.btn-extract-red:hover {
+    background: var(--color-hover-bg);
+    color: var(--color-pill-red);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-extract-blue:hover {
+    background: var(--color-hover-bg);
+    color: var(--color-pill-blue);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-extract-bubble:active {
+    outline: none !important;
+}
+
+.btn-extract-bubble.is-spinning {
+    pointer-events: none;
+    opacity: 0.92;
+    animation: bubblePulse 0.9s infinite alternate;
+}
+
+@keyframes bubblePulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.03); }
+}
+
+/* -----------------------------------
+   WORKSHOP GROUPS
+   ----------------------------------- */
+.bubble-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.bubble-groups .bubble-title {
+    margin-bottom: 0;
+}
+
+.groups-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+}
+
+.group-add-form {
+    display: flex;
+    align-items: stretch;
+    gap: 0.45rem;
+    width: 100%;
+}
+
+.group-name-field {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 2.6rem;
+    padding: 0 1rem;
+    border: none;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--color-text);
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--article-size);
+    font-feature-settings: normal;
+    box-shadow: var(--extract-pill-shadow);
+    outline: none;
+}
+
+.btn-add-group {
+    flex: 0 0 auto;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: none;
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--color-text);
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--extract-pill-shadow);
+    transition: background-color 0.2s ease, box-shadow 0.15s ease, color 0.2s ease;
+}
+
+.btn-add-group:hover {
+    background: #ffffff;
+    color: var(--color-text);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-add-group:active {
+    background: #ffffff;
+}
+
+.groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.group-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.95rem 1rem 1rem;
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.07),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, background-color 0.2s ease;
+}
+
+.group-card:hover {
+    background: var(--color-hover-bg);
+    box-shadow: var(--shadow-hover);
+}
+
+.group-card.is-active {
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.07),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+}
+
+.group-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.7rem;
+}
+
+.group-card-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    font-weight: 900;
+    font-feature-settings: normal;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    outline: none;
+    padding: 0.15rem 0;
+}
+
+.group-card-remove {
+    flex: 0 0 auto;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-card-remove:hover {
+    color: var(--color-pill-red);
+}
+
+.group-card-remove:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+.group-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.group-slot-label {
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--caption-size);
+    font-feature-settings: normal;
+    color: var(--color-muted);
+    margin: 0 0 0.35rem;
+    letter-spacing: 0.01em;
+}
+
+.group-slot-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-height: 0;
+}
+
+.group-slot-list.group-templates {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+}
+
+.group-slot-empty {
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--caption-size);
+    font-feature-settings: normal;
+    color: var(--color-muted);
+    margin: 0;
+}
+
+.group-slot-list.group-templates .group-slot-empty {
+    grid-column: 1 / -1;
+}
+
+.card-assign-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+    width: 100%;
+}
+
+.card-assign-row .complaint-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.card-assign-select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    box-sizing: border-box;
+    height: var(--extract-pill-height);
+    min-height: var(--extract-pill-height);
+    max-height: var(--extract-pill-height);
+    padding: 0 2.4rem 0 var(--extract-pill-pad-x);
+    border: none;
+    border-radius: 999px;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23363635' d='M1.1 1.2L6 6.1l4.9-4.9 1.1 1.1L6 8.3 0 2.3z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.15rem center;
+    background-size: 0.7rem auto;
+    color: var(--color-text);
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--extract-pill-font);
+    font-weight: 900;
+    font-feature-settings: normal;
+    letter-spacing: 0.02em;
+    line-height: var(--extract-pill-height);
+    text-align: center;
+    box-shadow: var(--extract-pill-shadow);
+    cursor: pointer;
+    outline: none;
+    transition: box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.card-assign-select:hover {
+    background-color: var(--color-hover-bg);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-assign-select:focus,
+.card-assign-select:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 2px;
+}
+
+/* -----------------------------------
+   BUBBLE 2: INSERT FORM & SIDE POSTBOX
+   ----------------------------------- */
+.complaint-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+}
+
+.form-field-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.55rem;
+    width: 100%;
+}
+
+.form-field-row .textarea-wrapper,
+.form-field-row .media-upload-area {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.btn-post-field {
+    flex: 0 0 auto;
+    align-self: center;
+    width: 4.75rem;
+    height: 4.75rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--color-text);
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: 3rem;
+    font-feature-settings: normal;
+    font-variant: normal;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 8px 18px rgba(54, 54, 53, 0.08),
+        0 2px 6px rgba(54, 54, 53, 0.04),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.95),
+        inset -2px -3px 6px rgba(54, 54, 53, 0.08);
+    outline: none;
+    touch-action: manipulation;
+    transition: box-shadow 0.15s ease, background-color 0.2s ease;
+}
+
+.btn-post-field:focus,
+.btn-post-field:focus-visible {
+    outline: 2px solid rgba(54, 54, 53, 0.45);
+    outline-offset: 3px;
+}
+
+.btn-post-field:hover {
+    background: var(--color-hover-bg);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-post-field.is-sent {
+    animation: bubblePulse 0.45s ease;
+}
+
+.complaint-textarea {
+    width: 100%;
+    min-height: 85px;
+    padding: 1rem 1.2rem;
+    font-family: "Helveesti", sans-serif;
+    font-size: var(--article-size);
+    line-height: 1.45;
+    color: var(--color-text);
+    background: #ffffff;
+    border: none;
+    border-radius: 22px;
+    resize: vertical;
+    outline: none;
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.07),
+        0 2px 6px rgba(54, 54, 53, 0.03),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+    transition: all 0.25s ease;
+}
+
+.complaint-textarea:focus {
+    background: #ffffff;
+    box-shadow:
+        0 12px 28px rgba(54, 54, 53, 0.10),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+}
+
+.media-upload-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.upload-dropzone {
+    border: none;
+    border-radius: 22px;
+    padding: 1.15rem;
+    text-align: center;
+    background: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 85px;
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.07),
+        0 2px 6px rgba(54, 54, 53, 0.03),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+    transition: all 0.25s ease;
+}
+
+.upload-dropzone-emojis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+}
+
+.upload-dropzone-emoji {
+    font-size: 3rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.drag-over {
+    background: var(--color-hover-bg);
+    box-shadow: var(--shadow-hover);
+}
+
+.upload-dropzone:hover .upload-dropzone-emoji {
+    transform: scale(1.08);
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.image-preview-container {
+    display: none;
+    position: relative;
+    border: none;
+    border-radius: 22px;
+    background: #ffffff;
+    max-height: 140px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.07),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+}
+
+.image-preview-container img {
+    max-width: 100%;
+    max-height: 120px;
+    object-fit: contain;
+}
+
+.btn-remove-image {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* -----------------------------------
+   BUBBLE 3: EXTRACTED CHIPS (= extract pills)
+   ----------------------------------- */
+.extracted-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.extracted-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.extracted-templates-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.complaint-card {
+    width: 100%;
+    box-sizing: border-box;
+    height: var(--extract-pill-height);
+    min-height: var(--extract-pill-height);
+    max-height: var(--extract-pill-height);
+    padding: 0 var(--extract-pill-pad-x);
+    background: #ffffff;
+    border: none;
+    border-radius: 999px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 8px 22px rgba(54, 54, 53, 0.07),
+        0 2px 6px rgba(54, 54, 53, 0.03),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 8px rgba(54, 54, 53, 0.08);
+    touch-action: manipulation;
+    transition: box-shadow 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+    animation: cardAppear 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.complaint-card:hover {
+    background: var(--color-hover-bg);
+    color: var(--color-text);
+    box-shadow: var(--shadow-hover);
+}
+
+.complaint-card.image-card {
+    padding: 0.28rem 0.4rem;
+}
+
+/* Full-size meme templates — 2 per row, no frame, image only */
+.complaint-card.template-card {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
+    cursor: pointer;
+}
+
+.complaint-card.template-card:hover {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+.complaint-card.template-card .card-image-thumb {
+    height: auto;
+    max-height: none;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.complaint-card.template-card .card-image-thumb:hover {
+    transform: none;
+    opacity: 0.92;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card-body-text {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: var(--article-size);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    font-feature-settings: normal;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.card-image-thumb {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: none;
+    display: block;
+}
+
+/* ===================================
+   MODALS: EXTRACTION & LIGHTBOX
+   =================================== */
+.extraction-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    /* Blur background without darkening it */
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.extraction-modal-backdrop.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Extraction modal: image alone, no yellow frame */
+.extraction-modal-dialog {
+    background: transparent;
+    color: #363635;
+    border: none;
+    border-radius: 0;
+    max-width: min(720px, 92vw);
+    width: auto;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    position: relative;
+    transform: scale(0.94);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.extraction-modal-dialog:hover {
+    transform: scale(0.96);
+    box-shadow: none;
+}
+
+.extraction-modal-backdrop.is-visible .extraction-modal-dialog {
+    transform: scale(1);
+}
+
+.extraction-modal-backdrop.is-visible .extraction-modal-dialog:hover {
+    transform: scale(1.015);
+}
+
+.modal-complaint-text {
+    font-family: "Helveesti Spikes", sans-serif;
+    font-size: calc(var(--article-size) * 1.35);
+    font-weight: 900;
+    line-height: 1.35;
+    color: #363635;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    max-width: min(580px, 90vw);
+    margin: 0;
+    padding: 2rem 2.2rem;
+    word-break: break-word;
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow:
+        0 18px 40px rgba(54, 54, 53, 0.14),
+        inset 3px 3px 8px rgba(255, 255, 255, 0.95),
+        inset -3px -4px 10px rgba(54, 54, 53, 0.08);
+}
+
+.modal-image-container {
+    width: auto;
+    max-width: min(720px, 92vw);
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.modal-complaint-image {
+    max-width: min(720px, 92vw);
+    max-height: min(72vh, 640px);
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    box-shadow: 0 18px 48px rgba(54, 54, 53, 0.22);
+    object-fit: contain;
+    background: transparent;
+}
+
+.lightbox-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 20000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    padding: 2rem;
+}
+
+.lightbox-modal.is-active {
+    display: flex;
+}
+
+.lightbox-modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid #fff;
+}
+
+/* ===================================
+   RESPONSIVE LAYOUT
+   =================================== */
+@media (max-width: 992px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .app-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .stage-section {
+        /* Shorter stage + farther camera → whole machine visible */
+        height: 48vh;
+        min-height: 320px;
+        flex: none;
+    }
+
+    .sidebar-section {
+        --extract-pill-height: 3.05rem;
+        --extract-pill-pad-x: 1.1rem;
+        max-width: 100%;
+        min-width: 100%;
+        flex: none;
+        height: auto;
+        padding: 1.5rem var(--pad-mobile);
+    }
+
+    .bubble-panel {
+        padding: 1.15rem 1.05rem;
+        border-radius: 28px;
+    }
+
+    /* Centra + gira: alto a destra su mobile */
+    .stage-controls-bl {
+        left: auto;
+        right: var(--pad-mobile);
+        bottom: auto;
+        top: calc(var(--pad) + 8px);
+    }
+
+    .stage-topbar {
+        left: var(--pad-mobile);
+        right: auto;
+        width: auto;
+    }
+}
+
+/* Keep burger + emoji inset/scale in sync with gallery chrome */
+@media (max-width: 850px) {
+    .hamburger-menu {
+        left: var(--pad-mobile);
+    }
+
+    .menu-toggle,
+    .emoji-counter,
+    .emoji-toggle-btn,
+    .btn-post-field,
+    .upload-dropzone-emoji {
+        font-size: 2.5rem;
+    }
+
+    .ball-count-number {
+        font-size: calc(var(--medium-size) * 0.85);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glow-hover,
+    .emoji-toggle-btn,
+    .menu-toggle,
+    .btn-extract-bubble,
+    .btn-post-field,
+    .complaint-card {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .glow-hover:hover,
+    .emoji-toggle-btn:hover,
+    .menu-toggle:hover {
+        transform: none;
+        text-shadow: none;
+    }
+}

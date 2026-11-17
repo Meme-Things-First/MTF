@@ -287,8 +287,3 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroImages = new HeroImages();
     heroImages.init();
 });
-
-// Export for external use if needed
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = HeroImages;
-}

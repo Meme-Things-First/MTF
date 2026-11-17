@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://meme-things-first.github.io/MTF/sitemap.xml
